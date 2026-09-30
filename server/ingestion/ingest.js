@@ -3,8 +3,10 @@
 //   -> chunk (~600-800 tokens, headings kept) -> embed -> kb_chunks
 //
 // Usage: node ingestion/ingest.js ingestion/seed/led-lighting.json
-// Every row must carry authority/title/url. Rows are INGESTED but stay
-// `verified = false` until team review — only verified rows back 'confirmed'.
+// Every row must carry authority/title/url. A row with `"verified": true`
+// has been reviewed against its official source; rows without it are
+// INGESTED but stay `verified = false` until team review — only verified
+// rows back 'confirmed' (ADR-0002 source-validation gate).
 import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -40,6 +42,14 @@ export async function ingest(db, manifest) {
       sourceId = rows[0].id;
     }
 
+    // A re-ingested source with corrected text supersedes its old documents:
+    // drop superseded kb_documents (chunks cascade) so stale chunks are
+    // never retrieved alongside the corrected text.
+    await db.query(
+      `DELETE FROM kb_documents WHERE source_id = $1 AND content_hash <> $2`,
+      [sourceId, contentHash]
+    );
+
     const { rows: dr } = await db.query(
       `INSERT INTO kb_documents (source_id, content_hash) VALUES ($1, $2)
        ON CONFLICT (source_id, content_hash) DO NOTHING RETURNING id`,
@@ -47,13 +57,14 @@ export async function ingest(db, manifest) {
     );
     if (dr.length === 0) continue; // unchanged document — skip
 
-    // optional curated standard row (verified stays false until team review)
+    // curated standard row — `verified` flows from the manifest after team
+    // review of the source; unreviewed rows stay false and never back 'confirmed'
     if (doc.standard) {
       await db.query(
         `INSERT INTO standards (is_number, title, description, latest_source, verified)
-         VALUES ($1, $2, $3, $4, false)
-         ON CONFLICT (is_number) DO UPDATE SET latest_source = $4`,
-        [doc.standard, doc.title, doc.description ?? null, sourceId]
+         VALUES ($1, $2, $3, $4, $5)
+         ON CONFLICT (is_number) DO UPDATE SET latest_source = $4, verified = $5`,
+        [doc.standard, doc.title, doc.description ?? null, sourceId, doc.verified === true]
       );
     }
 
@@ -85,7 +96,7 @@ if (isDirectRun) {
     const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
     const n = await ingest(client, manifest);
     console.log(`ingested ${n} document(s) from ${path.basename(manifestPath)} (provider: ${aiConfig().provider})`);
-    console.log('remember: rows are verified=false until team review flips them');
+    console.log('rows without `"verified": true` remain verified=false until team review flips them');
   } finally {
     await client.end();
   }

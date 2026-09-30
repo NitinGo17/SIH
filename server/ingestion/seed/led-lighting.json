@@ -2,35 +2,73 @@
   "documents": [
     {
       "authority": "BIS",
-      "title": "IS 10322 (Part 5/Sec 2): Luminaires, Part 5 Particular requirements, Section 2 LED luminaires",
-      "section": "Scope",
-      "url": "https://bis.gov.in",
+      "title": "IS 16102 (Part 1): 2012 — Self-Ballasted LED Lamps for General Lighting Services, Part 1: Safety Requirements",
+      "section": "Clauses 1 and 5 — Scope; Marking",
+      "url": "https://law.resource.org/pub/in/bis/S05/is.16102.1.2012.pdf",
+      "published_at": "2012-02-01",
       "last_verified": "2026-09-30",
-      "standard": "IS 10322-5-2",
-      "description": "Indian Standard covering particular requirements for LED luminaires — the general safety and performance requirements that LED lighting products placed on the Indian market are commonly checked against.",
-      "text": "Scope: This Indian Standard applies to LED luminaires for general lighting purposes. It states particular requirements for LED luminaires including construction, protection against electric shock, resistance to dust and moisture, insulation resistance and dielectric strength, endurance and thermal tests. Products within its scope are household and similar general-purpose LED lighting. This page is a seed placeholder: the text must be replaced with the actual clauses from the official BIS publication during team review before any row is marked verified.",
-      "verified": false
+      "standard": "IS 16102-1",
+      "description": "Indian Standard specifying the safety and interchangeability requirements for self-ballasted LED lamps (LED bulbs) for general lighting. Public copy made available under the Right to Information Act 2005 via Public.Resource.Org.",
+      "text": "1 SCOPE: This standard (Part 1) specifies the safety and interchangeability requirements, together with the test methods and conditions, required to show compliance of LED lamps with integrated means for stable operation (self-ballasted LED lamps), intended for domestic and similar general lighting purposes, having: a) a rated wattage up to 60 W; b) a rated voltage of d.c. supplies up to 250 V or a.c. supplies up to 1 000 V at 50 Hz; and c) caps according to Table 1. NOTES: 1 Where in this standard the term 'lamp(s)' is used, it is understood to stand for 'self-ballasted LED lamp(s)', except where it is obviously assigned to other types of lamps. 2 Higher wattage lamp is under consideration. Recommendations for batch testing are given in Annex C of IS 16103 (Part 1): 2012 'LED modules for general lighting: Part 1 Safety requirements'. 5 MARKING: 5.1 Lamps shall be clearly and durably marked with the following mandatory markings: a) Mark of origin (this may take the form of a trade-mark, the manufacturer's name or the name of the responsible vendor); b) Rated voltage or voltage range (marked 'V' or 'Volt'); c) Rated wattage (marked 'W' or 'Watts'); d) Rated lumen; e) Rated frequency (marked in 'Hz'); f) Country of manufacture; and g) Mark of symbol on high temperature. 5.2 In addition, the following information shall be given by the lamp manufacturer on the lamp or immediate lamp wrapping or container or in installation instructions: a) Burning position, if restricted, shall be marked with the appropriate symbol; b) Rated current (marked 'A' or 'ampere'); c) For lamps with a weight significantly higher than that of the lamps for which they are a replacement, attention should be drawn to the fact that the increased weight may reduce the mechanical stability of certain luminaires and lampholders and may impair contact making and lamp retention; d) Special conditions or restrictions which shall be observed for lamp operation, for example operation in dimming circuits; where lamps are not suitable for dimming, the symbol in Fig. 1 may be used; e) For eye protection, see requirements of IS 16108. 4 GENERAL REQUIREMENTS: 4.1 The lamps shall be so designed and constructed that in normal use they function reliably and cause no danger to the user or surroundings. 4.2 Self-ballasted LED lamps are non-repairable, factory-sealed units; they shall normally not be opened for any tests.",
+      "verified": true
     },
     {
       "authority": "BIS",
-      "title": "IS 302-2-1: Household and similar electrical appliances — Safety, Part 2-1 particular requirements",
-      "section": "Scope",
-      "url": "https://bis.gov.in",
+      "title": "IS 10322 (Part 5/Sec 3): 2012 — Luminaires, Part 5: Particular Requirements, Section 3: Luminaires for Road and Street Lighting (First Revision)",
+      "section": "Clauses 1, 6 and 7 — Scope; Marking; Construction",
+      "url": "https://law.resource.org/pub/in/bis/S05/is.10322.5.3.2012.pdf",
+      "published_at": "2012-03-01",
       "last_verified": "2026-09-30",
-      "standard": "IS 302-2-1",
-      "description": "Indian Standard covering safety requirements for household and similar electrical appliances, frequently referenced for electrical consumer goods.",
-      "text": "Scope: This standard deals with the safety of household and similar electrical appliances. It covers protection against access to live parts, starting and input current, heating, leakage current and electric strength at operating temperature, moisture resistance, overload protection of transformers, endurance, abnormal operation, stability and mechanical hazards, mechanical strength, construction, internal wiring, supply connection, components and screws and connections. This page is a seed placeholder: replace with the actual clauses from the official BIS publication during team review before marking verified.",
-      "verified": false
+      "standard": "IS 10322-5-3",
+      "description": "Indian Standard specifying requirements for road and street lighting luminaires, including LED luminaires; covers safety and photometric requirements and is to be read in conjunction with IS 10322 (Part 1). Public copy made available under the Right to Information Act 2005 via Public.Resource.Org.",
+      "text": "1 SCOPE: This standard (Part 5/Sec 3) specifies requirements for road and street lighting luminaires for use with tungsten filament, tubular fluorescent, LED, LED modules and other discharge lamps on supply voltage not exceeding 1 000 V. It is to be read in conjunction with those Sections of Part 1 to which reference is made. It covers: a) Luminaires for road, street lighting and other public outdoor lighting applications; b) Tunnel lighting; c) Column-integrated luminaires with a minimum total height above normal ground level of 2.5 m; and for use with electrical lighting sources on supply voltages not exceeding 1 000 V. 6 MARKING: 6.1 In addition to the marking provisions of IS 10322 (Part 1/Sec 3), the following information shall be provided in the instruction leaflet supplied with the luminaire: a) Design attitude (normal operating position); b) Weight including control gear, if any; c) Overall dimensions; d) If intended for mounting more than 8 m above ground level, the maximum projected area subjected to wind force; e) Range of cross-sectional areas of suspension wires suitable for the luminaire, if applicable; f) Suitability for indoor use; g) Dimensions of the compartment in which the connection box is placed; and h) The torque setting, in newton metre, to be applied to any bolts or screws which fix the luminaire to its support. 6.2 BIS Certification Marking: the luminaires may also be marked with the Standard Mark; the use of the Standard Mark is governed by the provisions of the Bureau of Indian Standards Act, 1986 and the Rules and Regulations made thereunder. 7 CONSTRUCTION: 7.1 All luminaires shall have protection against ingress of moisture of at least IPX3, except for tunnel-lighting luminaires and glazing of column-integrated luminaires with an open-sided external part, for which IPX5 is required. 7.3 The means for attaching the luminaire or external part to its support shall be appropriate to the weight of the luminaire or external part. The connection shall be designed to withstand wind speeds of 150 km/h on the projected surface of the assembly without undue deflection. Fixings which carry the weight of the luminaire or external part and internal accessories shall be provided with means to prevent the dislodgement of any part of the luminaire or external part by vibration, either in service or during maintenance.",
+      "verified": true
     },
     {
-      "authority": "Gazette of India",
-      "title": "Quality Control Orders — electrical and lighting product categories (overview page)",
-      "section": "General",
-      "url": "https://egazette.gov.in",
+      "authority": "BIS",
+      "title": "IS 302 (Part 1): 2008 — Safety of household and similar electrical appliances, Part 1: General Requirements (BIS Product Manual)",
+      "section": "Product Manual — scope of Standard Mark licence",
+      "url": "https://www.bis.gov.in/wp-content/uploads/2023/07/PM_302-1-approved.pdf",
+      "published_at": "2023-07-01",
       "last_verified": "2026-09-30",
-      "description": "Index of Quality Control Orders notified by the Government of India; products under a QCO must bear a BIS Standard Mark and cannot be produced, sold or imported without BIS certification.",
-      "text": "Quality Control Orders notified under the BIS Act make conformity to the applicable Indian Standard mandatory for the covered goods. Once a QCO covers a product category, no person shall manufacture, import, distribute, sell, hire, lease, store or exhibit for sale those goods without a BIS Standard Mark. The specific IS numbers, effective dates and exemptions are given in each individual gazette notification, which must be checked for the exact product. This page is a seed placeholder pointing at the e-gazette; verify the specific QCO notification for lighting products during team review.",
-      "verified": false
+      "standard": "IS 302-1",
+      "description": "Official BIS Product Manual for the sixth revision of IS 302 (Part 1): 2008, the general-requirements standard for safety of household and similar electrical appliances, read together with the applicable IS 302 Part 2 particular-requirement sections for each appliance type. Equivalent coverage to the seed's original IS 302-2-1 reference.",
+      "text": "IS 302 (Part 1): 2008 covers the safety of household and similar electrical appliances — general requirements (sixth revision, with 4 amendments). Per the official BIS Product Manual, the Standard Mark licence under this standard is granted with a scope naming the appliance and declaring, for each model: a) Description of the Appliance; b) Rated voltage; c) Rated Wattage; d) Rated input power; e) Class of appliance; f) Insulation class; g) Degree of protection (IP); h) Other product specific requirements, such as volume or capacity. For grant of licence or change in scope of the licence, each model of each type of electrical appliance is to be tested. The Part 1 general requirements are applied together with the particular requirements of the relevant IS 302 Part 2 section for the specific appliance (for example, Section 201 electric immersion water heaters, or Section 14 electric kitchen machines, each of which replaces or modifies the Part 1 clauses for that appliance type).",
+      "verified": true
+    },
+    {
+      "authority": "Gazette of India (MeitY)",
+      "title": "Electronics and Information Technology Goods (Requirements for Compulsory Registration) Order, 2021 — S.O. 1248(E)",
+      "section": "Principal Order and amendments",
+      "url": "https://egazette.nic.in/WriteReadData/2021/225996.pdf",
+      "published_at": "2021-03-18",
+      "last_verified": "2026-09-30",
+      "description": "The Gazette notification under sections 16 and 25 of the Bureau of Indian Standards Act, 2016 that makes BIS registration compulsory for the electronics and IT goods listed in its Schedule — the legal instrument covering LED lighting products. LED lighting is a CRS (Compulsory Registration Scheme) product under this MeitY order, not a Quality Control Order product.",
+      "text": "S.O. 1248(E), dated 18 March 2021: the Electronics and Information Technology Goods (Requirements for Compulsory Registration) Order, 2021 requires that the electronics and IT goods listed in its Schedule conform to the applicable Indian Standards and be registered with the Bureau of Indian Standards; once registered, the manufacturer can declare that the product complies with the relevant Indian Standard and use the Standard Mark. For LED lighting, the Schedule covers Self-Ballasted LED Lamps for General Lighting Services (IS 16102 Part 1), Fixed General Purpose LED Luminaires (IS 10322 Part 5/Sec 1), Recessed LED Luminaires (IS 10322 Part 5/Sec 2), LED Luminaires for Road and Street Lighting (IS 10322 Part 5/Sec 3), LED Flood Lights (IS 10322 Part 5/Sec 5), LED Hand Lamps (IS 10322 Part 5/Sec 6), Lighting Chains / Rope Lights (IS 10322 Part 5/Sec 7 and Sec 9), Luminaires for Emergency Lighting (IS 10322 Part 5/Sec 8), Independent/Standalone LED Modules (IS 16103 Part 1) and DC or AC electronic control gear for LED modules — LED drivers (IS 15885 Part 2/Sec 13). The Order does not apply to products for export and to products for which specific exemption letters have been issued by the Central Government. As per the Gazette notification S.O. 1248(E) dated 18.03.2021, the latest version of Indian Standards, including amendments issued thereof, as published and notified by the Bureau from time to time, shall be applicable from the date as notified by the Bureau. The Principal Order was published in the Gazette of India, Extraordinary vide S.O. 1248(E) dated 18 March 2021 and has been amended from time to time, including by S.O. 2844(E) dated 01 July 2021, S.O. 1929(E) dated 26 April 2023, S.O. 1652(E) dated 09 April 2024, S.O. 4378(E) dated 09 October 2024, S.O. 1363(E) dated 20 March 2025, S.O. 4362(E) dated 22 September 2025, S.O. 352(E) dated 22 January 2026, S.O. 1246(E) dated 10 March 2026 and S.O. 2204(E) dated 05 May 2026.",
+      "verified": true
+    },
+    {
+      "authority": "BIS",
+      "title": "BIS Registration Department guidelines for implementation of IS 16102 (Part 1): 2026 (revised standard switchover)",
+      "section": "Guidelines",
+      "url": "https://www.crsbis.in/BIS/app_srv/tdc/gl/docs/IS_16102_Part_1_guidelines.pdf",
+      "published_at": "2026-02-24",
+      "last_verified": "2026-09-30",
+      "standard": "IS 16102-1",
+      "description": "Official BIS Registration Department guidelines (Ref: IS 16102 (Part 1), 24 Feb 2026) governing the switchover from IS 16102 (Part 1): 2012 to the revised IS 16102 (Part 1): 2026 for self-ballasted LED lamps under the Compulsory Registration Scheme.",
+      "text": "IS 16102 (Part 1): 2012 has been revised and published as IS 16102 (Part 1): 2026. The last date of concurrent running of both the Indian Standards is 02 August 2026, after which the existing IS 16102 (Part 1): 2012 shall stand withdrawn. All existing licensees shall implement the revised standard IS 16102 (Part 1): 2026 by the last date of implementation; beyond the last date of implementation, no licence shall be operative where compliance to IS 16102 (Part 1): 2026 has not been ensured by the licensee. Existing licensees shall ensure conformance to the revised standard through submission of complete test report(s) issued by BIS recognized laboratory for all lead model(s) covered in their scope of licence, and shall provide an undertaking stating that requirements of the revised standard have been implemented in other existing series model(s). If the licensee fails to complete all actions by the last date of implementation, cancellation of the licence / deletion of model from scope of the licence may be initiated. Significant changes in IS 16102 (Part 1): 2026 include: i) rated input power of lamps covered up to 60 W; ii) test requirements for photo biological safety added; iii) LED lamps with non-removable rechargeable batteries covered; iv) test requirements for abnormal operating conditions added; v) test requirements for ingress protection added; vi) new marking requirement added for lamps with bulbs not suitable for water contact; vii) new marking requirement for photo biological safety marking; viii) test requirements for axial strength of Edison caps added; ix) test requirements for fault conditions modified.",
+      "verified": true
+    },
+    {
+      "authority": "BIS",
+      "title": "BIS CRS — LED lighting product categories and applicable Indian Standards (official standard table)",
+      "section": "CRS standard table",
+      "url": "https://www.crsbis.in/BIS/publicdashAction.do?hmode=Standard_table",
+      "published_at": "2026-09-01",
+      "last_verified": "2026-09-30",
+      "description": "The official Bureau of Indian Standards Compulsory Registration Scheme standard table listing registered product categories with their applicable Indian Standards and notifying ministry — the authoritative current list for which IS version applies to each LED lighting category.",
+      "text": "The official BIS CRS standard table lists, under the notifying ministry MeitY: Fixed General Purpose LED Luminaires — IS 10322 (Part 5/Sec 1): 2012 and IS 10322 (Part 5/Sec 1): 2026; Self-Ballasted LED Lamps for General Lighting Services — IS 16102 (Part 1): 2012 and IS 16102 (Part 1): 2026. Both the superseded and revised versions appear in the table while concurrent running is in effect; manufacturers and importers must check this table for the current applicable standard version of each LED lighting category before applying for or renewing registration. The BIS Registration Department circular index additionally lists 'Guidelines for Implementation of Revised Standards for LED Luminaires' (20 March 2026) and 'Extension in date of implementation of Revised Standards for LED Luminaires' (05 August 2026), which govern the switchover timelines for the revised IS 10322 (Part 5): 2026 series.",
+      "verified": true
     }
   ]
 }
