@@ -1,0 +1,32 @@
+<!-- Plan summary shown when discovery is done. Expects `plan` (it.plan):
+     {product, industry, requirements [{type, title, mandatory, confidence, sourceIds}],
+      tests [{name, purpose}], certification []} and it.sources {id -> source}. -->
+<div class="card plan-card">
+  <h2 class="plan-title">What we found for <%= it.plan.product %></h2>
+  <p class="plan-sub"><%= it.plan.industry %></p>
+
+  <h3>Applicable requirements</h3>
+  <ul class="plan-list" role="list">
+    <% it.plan.requirements.forEach(function (r) { %>
+    <li class="plan-item">
+      <div class="plan-item-head">
+        <span class="plan-item-title"><%= r.title %></span>
+        <%~ include('./confidence', {r: r}) %>
+      </div>
+      <p class="plan-item-meta">
+        Type: <%= r.type %> ·
+        <% if (r.mandatory === 'mandatory') { %>Mandatory<% } else if (r.mandatory === 'voluntary') { %>Voluntary<% } else { %>Mandatory status unknown<% } %>
+      </p>
+    </li>
+    <% }) %>
+  </ul>
+
+  <% if (it.plan.tests && it.plan.tests.length) { %>
+  <h3>Testing you will likely need</h3>
+  <ul class="plan-list" role="list">
+    <% it.plan.tests.forEach(function (t) { %>
+    <li class="plan-item"><span class="plan-item-title"><%= t.name %></span><p class="plan-item-meta"><%= t.purpose %></p></li>
+    <% }) %>
+  </ul>
+  <% } %>
+</div>

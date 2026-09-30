@@ -1,0 +1,46 @@
+<!-- Journey history — conversations per stage, paginated. Expects:
+     it.journeyId, it.stages [{name, messages [{role, content}], lastActive}],
+     it.page, it.pageCount. -->
+<section class="section" aria-labelledby="h-title">
+  <div class="container narrow">
+    <header class="page-head">
+      <h1 id="h-title">Journey history</h1>
+      <p class="page-sub">Conversations are kept per stage — never one endless transcript.</p>
+    </header>
+
+    <% if (!it.stages || it.stages.length === 0) { %>
+    <div class="card empty-state">
+      <svg aria-hidden="true" focusable="false"><use href="/icons.svg#compass"/></svg>
+      <p>Nothing here yet. Your conversations will appear as your journey progresses.</p>
+      <a class="btn btn-primary" href="/journey/<%= it.journeyId %>/checklist">Back to checklist</a>
+    </div>
+    <% } else { %>
+      <% it.stages.forEach(function (st) { %>
+      <section class="card history-stage" aria-labelledby="hs-<%= st.name %>">
+        <h2 id="hs-<%= st.name %>"><%= st.name %></h2>
+        <p class="hint">Last active: <%= st.lastActive %></p>
+        <% if (!st.messages || st.messages.length === 0) { %>
+        <p class="hint">No conversation at this stage.</p>
+        <% } else { %>
+        <details>
+          <summary>Show <%= st.messages.length %> message<%= st.messages.length === 1 ? '' : 's' %></summary>
+          <ul class="chat-log history-log" role="list">
+            <% st.messages.forEach(function (m) { %>
+            <li class="chat-msg chat-msg-<%= m.role %>"><p><%= m.content %></p></li>
+            <% }) %>
+          </ul>
+        </details>
+        <% } %>
+      </section>
+      <% }) %>
+
+      <% if (it.pageCount > 1) { %>
+      <nav class="pagination" aria-label="History pages">
+        <% if (it.page > 1) { %><a class="btn btn-quiet btn-sm" href="?page=<%= it.page - 1 %>">Previous</a><% } %>
+        <span class="pagination-state">Page <%= it.page %> of <%= it.pageCount %></span>
+        <% if (it.page < it.pageCount) { %><a class="btn btn-quiet btn-sm" href="?page=<%= it.page + 1 %>">Next</a><% } %>
+      </nav>
+      <% } %>
+    <% } %>
+  </div>
+</section>

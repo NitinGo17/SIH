@@ -1,0 +1,47 @@
+<!-- Dashboard. Expects: it.user {name}, it.greeting (server-computed by time of day),
+     it.products [{id, name, category, journeyProgress, currentStage, nextAction}],
+     it.activity [{when, text}], it.hasJourney (bool).
+     Empty state per docs/product.md §7 when no products. -->
+<section class="section" aria-labelledby="dash-title">
+  <div class="container">
+    <h1 id="dash-title"><%= it.greeting %>, <%= it.user && it.user.name || '' %></h1>
+
+    <% if (!it.products || it.products.length === 0) { %>
+      <%~ include('partials/empty-products') %>
+    <% } else { %>
+      <% it.products.forEach(function (p) { %>
+      <article class="card product-card" aria-labelledby="pc-<%= p.id %>">
+        <div class="product-card-head">
+          <h2 class="product-card-title" id="pc-<%= p.id %>"><%= p.name %></h2>
+          <p class="product-card-meta"><%= p.category %> · <%= p.currentStage || 'Not started' %></p>
+        </div>
+        <div class="product-card-body">
+          <div class="progress" role="progressbar" aria-valuenow="<%= p.journeyProgress %>" aria-valuemin="0" aria-valuemax="100"
+               aria-label="Journey progress for <%= p.name %>">
+            <div class="progress-bar" style="width: <%= p.journeyProgress %>%"></div>
+          </div>
+          <p class="progress-label"><%= p.journeyProgress %>% complete<% if (p.nextAction) { %> · Next: <%= p.nextAction %><% } %></p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="/journey/<%= p.journeyId %>/checklist">Continue Journey</a>
+            <a class="btn btn-quiet" href="/products">All products</a>
+          </div>
+        </div>
+      </article>
+      <% }) %>
+    <% } %>
+
+    <% if (it.activity && it.activity.length) { %>
+    <section class="dash-panel" aria-labelledby="dash-activity">
+      <h2 id="dash-activity">Recent activity</h2>
+      <ul class="activity-list" role="list">
+        <% it.activity.forEach(function (a) { %>
+        <li>
+          <span class="activity-when"><%= a.when %></span>
+          <span class="activity-text"><%= a.text %></span>
+        </li>
+        <% }) %>
+      </ul>
+    </section>
+    <% } %>
+  </div>
+</section>

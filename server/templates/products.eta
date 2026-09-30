@@ -1,0 +1,73 @@
+<!-- My Products. Expects: it.products [{id, name, category, origin, complianceStage, journeyProgress, journeyId}].
+     Add-product form uses <details> so it works without JavaScript. -->
+<section class="section" aria-labelledby="products-title">
+  <div class="container">
+    <h1 id="products-title">My Products</h1>
+
+    <% if (!it.products || it.products.length === 0) { %>
+      <%~ include('partials/empty-products') %>
+    <% } else { %>
+    <ul class="product-list" role="list">
+      <% it.products.forEach(function (p) { %>
+      <li class="card product-row">
+        <div class="product-row-main">
+          <h2 class="product-row-title"><%= p.name %></h2>
+          <p class="product-row-meta">
+            <%= p.category || 'Category not set' %> · <%= p.origin === 'imported' ? 'Imported' : (p.origin === 'manufactured' ? 'Manufactured in India' : 'Origin not set') %>
+          </p>
+          <div class="progress" role="progressbar" aria-valuenow="<%= p.journeyProgress || 0 %>" aria-valuemin="0" aria-valuemax="100"
+               aria-label="Journey progress for <%= p.name %>">
+            <div class="progress-bar" style="width: <%= p.journeyProgress || 0 %>%"></div>
+          </div>
+          <p class="progress-label">
+            <% if (p.journeyProgress === 100) { %>Completed<% } else { %><%= p.journeyProgress || 0 %>% complete · <%= p.complianceStage || 'not started' %><% } %>
+          </p>
+        </div>
+        <div class="product-row-actions">
+          <% if (p.journeyId) { %>
+          <a class="btn btn-primary" href="/journey/<%= p.journeyId %>/checklist">
+            <% if ((p.journeyProgress || 0) === 100) { %>View summary<% } else { %>Continue<% } %></a>
+          <% } %>
+          <form method="post" action="/products/<%= p.id %>/delete" class="inline-form">
+            <button type="submit" class="btn btn-quiet btn-sm">Remove</button>
+          </form>
+        </div>
+      </li>
+      <% }) %>
+    </ul>
+    <% } %>
+
+    <details class="card add-product">
+      <summary>
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#product"/></svg>
+        Add a product
+      </summary>
+      <form method="post" action="/products" class="form-card">
+        <div class="field">
+          <label for="np-name">Product name</label>
+          <input type="text" id="np-name" name="name" required aria-describedby="np-name-hint">
+          <p class="hint" id="np-name-hint">For example: LED bulbs, stainless steel water bottles.</p>
+        </div>
+        <div class="field">
+          <label for="np-category">Category (optional)</label>
+          <input type="text" id="np-category" name="category">
+          <p class="hint">Helps the consultation start closer to your answer.</p>
+        </div>
+        <div class="field">
+          <label for="np-origin">Made in India or imported?</label>
+          <select id="np-origin" name="origin">
+            <option value="manufactured">Manufactured in India</option>
+            <option value="imported">Imported</option>
+          </select>
+          <p class="hint">Import rules and QCO checks differ from manufacturing ones.</p>
+        </div>
+        <div class="field">
+          <label for="np-use">Intended use (optional)</label>
+          <input type="text" id="np-use" name="intendedUse">
+          <p class="hint">For example: household lighting, children's toys.</p>
+        </div>
+        <button type="submit" class="btn btn-primary">Add product</button>
+      </form>
+    </details>
+  </div>
+</section>

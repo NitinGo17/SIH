@@ -26,16 +26,22 @@ server/
 
 ```css
 :root {
-  /* Identity: calm deep blue + warm saffron accent (Indian, not neon) */
-  --c-bg: #fafaf8;            --c-surface: #ffffff;
-  --c-ink: #16213a;           --c-ink-2: #4a5570;   /* AA on bg */
-  --c-primary: #1a3aff (adjust for AA); --c-primary-ink: #fff;
-  --c-accent: #e8871e;
+  /* Identity (brand palette, WCAG AA verified on Pearl):
+     Midnight Indigo ink · Pearl bg · Slate secondary · Electric Blue primary · Copper accent */
+  --c-bg: #f7f8fa;            --c-surface: #ffffff;
+  --c-ink: #17153b;           --c-ink-2: #242733;   /* AA on bg */
+  --c-primary: #3155d9;  --c-primary-hover: #2743b8;  --c-primary-ink: #fff;
+  /* Copper #d98b5f is decorative-only (borders/fills/dots; 2.5:1 on Pearl).
+     Text variants keep the hue at AA levels: */
+  --c-accent: #d98b5f;        /* decorative */
+  --c-accent-strong: #c87845; /* large accent text >=3:1 */
+  --c-accent-ink: #9c5626;    /* small accent text >=4.5:1 */
   --c-success: #1c7c4a;  --c-warn: #9a6700;  --c-danger: #b4232a;
-  --c-border: #e6e4df;
+  --c-border: #e3e6ee;
+  --c-primary-soft: #e9edfb;  --c-accent-soft: #f8ede4;
   --r-sm: 6px; --r-md: 10px; --r-lg: 16px;
-  --shadow-1: 0 1px 2px rgba(22,33,58,.06);
-  --shadow-2: 0 2px 8px rgba(22,33,58,.08);
+  --shadow-1: 0 1px 2px rgba(23, 21, 59, .06);
+  --shadow-2: 0 2px 8px rgba(23, 21, 59, .08);
   --space-1: 4px; ... --space-8: 64px;   /* 4px scale */
   --fs-body: 1rem; --fs-sm: .875rem; --fs-h1: clamp(1.75rem, 5vw, 3rem);
   --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;

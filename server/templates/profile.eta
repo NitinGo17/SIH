@@ -1,0 +1,72 @@
+<!-- Profile setup/edit. Expects: it.profile {businessName, businessType, industry, isComplete},
+     it.saved (bool, after successful save), it.error (string|null).
+     Plain form POST to /profile — works without JavaScript. -->
+<section class="section" aria-labelledby="profile-title">
+  <div class="container narrow">
+    <h1 id="profile-title">Tell us about your business</h1>
+    <p class="page-sub">This gives ManakAI the context to guide you — and it means the
+      consultation will never ask you for what you already told us here.</p>
+
+    <% if (it.saved) { %>
+    <div class="notice notice-success" role="status">
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#check"/></svg>
+      Your profile is saved. You can change it any time.
+    </div>
+    <% } %>
+    <% if (it.error) { %>
+    <div class="form-error" role="alert">
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#alert"/></svg>
+      <span id="profile-error-text"><%= it.error %></span>
+    </div>
+    <% } %>
+
+    <form method="post" action="/profile" class="card form-card">
+      <div class="field">
+        <label for="pf-business-name">Business name</label>
+        <input type="text" id="pf-business-name" name="businessName" autocomplete="organization"
+               value="<%= it.profile && it.profile.businessName || '' %>"
+               aria-describedby="pf-business-name-hint"
+               <% if (it.error) { %>aria-invalid="true" aria-describedby="profile-error-text"<% } %>>
+        <p class="hint" id="pf-business-name-hint">Used to address your journey and nothing else.</p>
+      </div>
+
+      <div class="field">
+        <label for="pf-business-type">What describes you best?</label>
+        <select id="pf-business-type" name="businessType"
+                aria-describedby="pf-business-type-hint"
+                <% if (it.error) { %>aria-invalid="true" aria-describedby="profile-error-text"<% } %>>
+          <% var types = [['','Choose one…'],['msme','MSME (small manufacturer or trader)'],['startup','Product startup'],['manufacturer','Manufacturer'],['importer','Importer'],['entrepreneur','Exploring an idea'],['other','Other']]; %>
+          <% types.forEach(function (t) { %>
+            <option value="<%= t[0] %>" <% if ((it.profile && it.profile.businessType) === t[0]) { %>selected<% } %>><%= t[1] %></option>
+          <% }) %>
+        </select>
+        <p class="hint" id="pf-business-type-hint">A manufacturer's path differs from an importer's — this changes the requirements we check.</p>
+      </div>
+
+      <div class="field">
+        <label for="pf-industry">Industry or product area</label>
+        <input type="text" id="pf-industry" name="industry" list="industry-options"
+               value="<%= it.profile && it.profile.industry || '' %>"
+               aria-describedby="pf-industry-hint"
+               <% if (it.error) { %>aria-invalid="true" aria-describedby="profile-error-text"<% } %>>
+        <datalist id="industry-options">
+          <option value="Electrical / Lighting"></option>
+          <option value="Toys"></option>
+          <option value="Electronics"></option>
+          <option value="Steel / Metals"></option>
+          <option value="Textiles"></option>
+          <option value="Food products"></option>
+          <option value="Ceramics / Sanitaryware"></option>
+        </datalist>
+        <p class="hint" id="pf-industry-hint">For example: electrical, toys, textiles. We use it to pre-check the right standards.</p>
+      </div>
+
+      <p class="privacy-note">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#shield"/></svg>
+        We never ask for Aadhaar, PAN, bank details or anything financial.
+      </p>
+
+      <button type="submit" class="btn btn-primary">Save profile</button>
+    </form>
+  </div>
+</section>

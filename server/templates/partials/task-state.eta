@@ -1,0 +1,14 @@
+<% var t = it.t; %>
+<!-- Shared task-state badge. Expects `t.state': locked | not_started | in_progress | completed | requires_verification.
+     Status is always icon + label + text, never color alone (docs/frontend-plan.md §6). -->
+<% var STATES = {
+  locked: {icon: 'lock', label: 'Locked', text: 'Complete the earlier tasks first', badge: ''},
+  not_started: {icon: 'clock', label: 'Not started', text: 'Ready when you are', badge: ''},
+  in_progress: {icon: 'clock', label: 'In progress', text: 'You are working on this now', badge: 'badge-warn'},
+  completed: {icon: 'check', label: 'Completed', text: 'Nice work', badge: 'badge-success'},
+  requires_verification: {icon: 'alert', label: 'Requires verification', text: 'ManakAI is not certain this applies — verify before acting', badge: 'badge-warn'}
+}; %>
+<span class="badge <%= STATES[t.state].badge %>">
+  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#<%= STATES[t.state].icon %>"/></svg>
+  <%= STATES[t.state].label %>
+</span>

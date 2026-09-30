@@ -1,0 +1,12 @@
+<% var s = it.s; %>
+<!-- Shared SourceCard partial. Expects `s`: {authority, documentTitle, section, lastVerified, url}. -->
+<article class="source-card">
+  <h4 class="source-heading">Source</h4>
+  <p class="source-title"><%= s.authority %> · <%= s.documentTitle %><% if (s.section) { %> — <%= s.section %><% } %></p>
+  <p class="source-meta">Last verified: <%= s.lastVerified %></p>
+  <a class="source-link" href="<%= s.url %>" target="_blank" rel="noopener noreferrer">
+    Open official document
+    <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="/icons.svg#external"/></svg>
+    <span class="visually-hidden">(opens in a new tab)</span>
+  </a>
+</article>

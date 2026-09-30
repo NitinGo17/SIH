@@ -1,0 +1,12 @@
+<!-- Offline notice, served by sw.js when a page is not cached. -->
+<section class="section" aria-labelledby="off-title">
+  <div class="container narrow">
+    <div class="card empty-state">
+      <svg aria-hidden="true" focusable="false"><use href="/icons.svg#offline"/></svg>
+      <h1 id="off-title">You appear to be offline.</h1>
+      <p>Your checklist stays readable if you opened it before. Other pages will return
+        when your connection does.</p>
+      <a class="btn btn-primary" href="/dashboard">Try again</a>
+    </div>
+  </div>
+</section>
