@@ -52,5 +52,7 @@ jobs:
       # Apply twice: second run must be a clean no-op (idempotency check)
       - run: node db/migrate.js
       - run: node db/migrate.js --status
-      # Full suite: unit tests + DB integration (auth flows, CSRF, rate limiting)
+      # Seed the knowledge base (LED vertical) for the AI integration suite
+      - run: npm run seed
+      # Full suite: unit tests + DB integration (auth, data, AI pipeline)
       - run: npm test

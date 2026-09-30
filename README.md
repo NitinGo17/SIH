@@ -28,6 +28,22 @@ npm run dev           # serves on :3000; without DATABASE_URL pages still render
 ```
 
 - `npm run lint` / `npm test` — ESLint 9 + node:test
+- `npm run seed` — ingest the LED-lighting knowledge base (Phase 4 demo vertical)
+
+## AI provider configuration
+
+The backend calls the LLM ONLY from `server/ai/provider.js` (ADR-0002). Without a key it
+runs a deterministic **mock provider** that answers strictly from retrieved knowledge-base
+rows — nothing is invented. To use a real model, set:
+
+```
+AI_PROVIDER=openai            # or leave unset with a key to auto-select
+AI_BASE_URL=https://api.example.com/v1   # any OpenAI-compatible endpoint
+AI_API_KEY=...                # server env only — never in client code
+AI_MODEL=...                  # default gpt-4o-mini
+AI_EMBED_MODEL=...            # default text-embedding-3-small
+AI_TIMEOUT_MS=45000
+```
 - `GET /healthz` — liveness probe, reports database state honestly
 - CI: `.github/workflows/ci.yml` — lint, unit tests, and migrations applied idempotently against a `pgvector/pgvector:pg16` service
 
