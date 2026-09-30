@@ -87,6 +87,8 @@ export function validationGate(requirements, retrievedRows) {
 
     const sources = citedIds.map((id) => bySource.get(id));
     const verified = sources.every((s) => s.verified);
+    // standard_id comes from the CITED SOURCE row, never from the model's claim
+    const standardId = r.type === 'standard' ? (sources[0].is_number ?? null) : null;
     const sourceText = sources.map((s) => s.text).join(' ').toLowerCase();
     const stripped = { ...r };
     // strip unverifiable fields
@@ -99,6 +101,7 @@ export function validationGate(requirements, retrievedRows) {
       explanation: r.explanation ?? '', mandatory: MANDATORY.has(r.mandatory) ? r.mandatory : 'unknown',
       confidence: confidence === 'confirmed' && !verified ? 'likely' : confidence,
       source_ids: citedIds,
+      standard_id: standardId,
     });
   }
   return out;

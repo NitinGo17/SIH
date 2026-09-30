@@ -19,12 +19,12 @@ export async function retrieve(db, query, opts = {}) {
   const { rows } = await db.query(
     `SELECT c.id AS chunk_id, s.id AS source_id, s.authority, s.document_title AS title,
             s.section, s.url, s.last_verified, s.published_at,
-            st.verified, c.text,
+            st.verified, st.is_number, c.text,
             1 - (c.embedding <=> $1::vector) AS score
      FROM kb_chunks c
      JOIN kb_documents d ON d.id = c.document_id
      JOIN sources s ON s.id = d.source_id
-     LEFT JOIN standards st ON st.latest_source = s.id
+     
      WHERE s.id IN (
        SELECT s2.id FROM sources s2  -- keyword safety net
        WHERE s2.document_title ILIKE '%' || $2 || '%'
@@ -49,6 +49,7 @@ export async function retrieve(db, query, opts = {}) {
       url: r.url,
       last_verified: r.last_verified,
       verified: Boolean(r.verified),
+      is_number: r.is_number ?? null,
       published_at: r.published_at,
       text: r.text,
       score: Number(r.score),

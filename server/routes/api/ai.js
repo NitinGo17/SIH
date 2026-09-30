@@ -65,7 +65,7 @@ export default async function aiApi(fastify) {
                (journey_id, type, title, explanation, why_it_matters, mandatory, confidence, standard_id)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
             [req.params.id, r.type, r.title, r.explanation, r.why_it_matters, r.mandatory,
-             r.confidence, r.type === 'standard' ? r.title : null]
+             r.confidence, r.standard_id ?? null]
           );
         }
         await fastify.db.query(`UPDATE journeys SET updated_at = now() WHERE id = $1`, [req.params.id]);
