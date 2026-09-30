@@ -8,6 +8,8 @@ import * as productsSvc from '../../services/products.js';
 import * as checklistSvc from '../../services/checklist.js';
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+const CONVERSATION_STAGES = ['discovery', 'requirements', 'testing', 'documentation', 'certification'];
+
 async function getOrCreateConversation(db, journeyId, stage) {
   const { rows } = await db.query(
     `INSERT INTO conversations (journey_id, stage) VALUES ($1, $2)
@@ -125,7 +127,8 @@ export default async function aiApi(fastify) {
     const task = await checklistSvc.getTask(fastify.db, req.user.id, req.params.id).catch(() => null);
     if (!task) return sendError(reply, 'NOT_FOUND');
 
-    const conversationId = await getOrCreateConversation(fastify.db, task.journeyId, task.stage);
+    const stage = CONVERSATION_STAGES.includes(task.stage) ? task.stage : 'requirements';
+    const conversationId = await getOrCreateConversation(fastify.db, task.journeyId, stage);
     const { rows: history } = await fastify.db.query(
       `SELECT role, content FROM messages WHERE conversation_id = $1 ORDER BY created_at`, [conversationId]
     );
