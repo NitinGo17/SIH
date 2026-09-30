@@ -12,6 +12,40 @@ A guided journey: **User profile → Product discovery → AI guidance → Perso
 
 It is NOT a chatbot with a landing page. The AI does the reasoning in the background; the user sees what applies to them, what they have completed, what to do next, why, what evidence is required, and where the information came from.
 
+## Running locally
+
+```bash
+docker compose up --build   # app on http://localhost:3000, Postgres+pgvector in Docker
+```
+
+Migrations apply automatically at container start. To develop without Docker:
+
+```bash
+cd server
+npm install
+node db/migrate.js   # requires DATABASE_URL pointing at a Postgres 16 + pgvector
+npm run dev           # serves on :3000; without DATABASE_URL pages still render (no data endpoints)
+```
+
+- `npm run lint` / `npm test` — ESLint 9 + node:test
+- `GET /healthz` — liveness probe, reports database state honestly
+- CI: `.github/workflows/ci.yml` — lint, unit tests, and migrations applied idempotently against a `pgvector/pgvector:pg16` service
+
+## Static website (repo root)
+
+The repo root holds **generated, standalone HTML** — `index.html`, `login.html`, ... with
+`css/` and `js/` folders — rendered through the same templates and page registry as the live
+app:
+
+```bash
+cd server && npm run export:static
+```
+
+To make the website live, enable **GitHub Pages → Deploy from a branch → `main` / `/ (root)`**
+(or point any static host at the repo root). It is a UI preview only — login, the AI
+consultation, checklists and lab search need the backend. Generated files are owned by the
+export script; project files (README.md, docs/, server/, ...) are never touched by it.
+
 ## Documentation
 
 | Document | Purpose |

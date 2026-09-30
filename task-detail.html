@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task · ManakAI</title>
+  <meta name="description" content="Task detail.">
+  <meta name="theme-color" content="#17153b">
+    <link rel="stylesheet" href="css/base.css">
+  <link rel="icon" href="icons.svg#logo" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="ManakAI home">
+        <svg class="icon icon-logo" aria-hidden="true" focusable="false"><use href="icons.svg#logo"/></svg>
+        <span class="brand-name">Manak<em>AI</em></span>
+      </a>
+
+      <!-- No-JS hamburger: label toggles a hidden checkbox, menu stays reachable by keyboard -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+      <label for="nav-toggle" class="nav-toggle" aria-label="Menu">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#menu"/></svg>
+        <span class="visually-hidden">Menu</span>
+      </label>
+
+      <nav class="site-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="journey-start.html">Start the Journey</a></li>
+                      <li><a class="btn btn-ghost btn-sm" href="login.html">Log in</a></li>
+            <li><a class="btn btn-primary btn-sm" href="register.html">Sign up</a></li>
+                  </ul>
+      </nav>
+    </div>
+  </header>
+
+  
+  <div id="offline-banner" class="offline-banner" hidden>
+    <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#offline"/></svg>
+    You appear to be offline. Some pages may not be available.
+  </div>
+
+  <main id="main" class="site-main ">
+    <!-- Task detail. Expects: it.journeyId, it.task {id, position, title, stage, state, explanation,
+     requirements [{label, done}], documents [], sources [{authority, documentTitle, section, lastVerified, url}]},
+     it.completed (bool — success state after completion), it.nextTask {id, title} | null. -->
+<section class="section" aria-labelledby="td-title">
+  <div class="container narrow">
+    
+    <header class="page-head">
+      <p class="task-number" aria-hidden="true">TASK 01</p>
+      <h1 id="td-title">Sample task</h1>
+      <!-- Shared task-state badge. Expects `t.state': locked | not_started | in_progress | completed | requires_verification.
+     Status is always icon + label + text, never color alone (docs/frontend-plan.md §6). -->
+<span class="badge ">
+  <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#clock"/></svg>
+  Not started</span>
+    </header>
+
+    <section class="card task-section" aria-labelledby="td-why">
+      <h2 id="td-why">Why this matters</h2>
+      <p>Task content will appear here once the checklist engine is live.</p>
+    </section>
+
+    <section class="card task-section" aria-labelledby="td-do">
+      <h2 id="td-do">What you need to do</h2>
+      <ul class="req-list" role="list">
+              </ul>
+    </section>
+
+    
+    <section class="task-sources" aria-labelledby="td-source">
+      <h2 id="td-source">Source</h2>
+          </section>
+
+    <div class="btn-row task-actions">
+      <a class="btn btn-primary" href="task-assist.html">
+        Continue with ManakAI
+      </a>
+      <form method="post" action="#" class="inline-form">
+        <button type="submit" class="btn btn-quiet" data-complete-task="/api/tasks/00000000-0000-0000-0000-000000000002/complete">
+          <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="icons.svg#check"/></svg>
+          Mark as Completed
+        </button>
+      </form>
+    </div>
+
+    <dialog id="complete-dialog" class="confirm-dialog" aria-labelledby="cd-title">
+      <form method="dialog">
+        <h2 id="cd-title">Have you completed this task?</h2>
+        <p class="hint">It stays in your checklist — you can reopen it any time.</p>
+        <div class="btn-row btn-row-center">
+          <button type="submit" value="yes" class="btn btn-primary" data-confirm>Yes</button>
+          <button type="submit" value="no" class="btn btn-quiet" data-cancel>Not yet</button>
+        </div>
+      </form>
+    </dialog>
+
+    <p class="task-back"><a href="checklist.html">Back to checklist</a></p>
+      </div>
+</section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-tagline">From Product to Compliance.</p>
+      <p class="footer-note">ManakAI provides guidance based on official sources. It is not official BIS approval.
+        Always verify requirements with the Bureau of Indian Standards.</p>
+      <p class="footer-copy">&copy; 2026 ManakAI</p>
+    </div>
+  </footer>
+
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/nav.js"></script>
+  <script type="module" src="js/offline.js"></script>
+</body>
+</html>

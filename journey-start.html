@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Start the Journey · ManakAI</title>
+  <meta name="description" content="Describe your product and get a compliance checklist.">
+  <meta name="theme-color" content="#17153b">
+    <link rel="stylesheet" href="css/base.css">
+  <link rel="icon" href="icons.svg#logo" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="ManakAI home">
+        <svg class="icon icon-logo" aria-hidden="true" focusable="false"><use href="icons.svg#logo"/></svg>
+        <span class="brand-name">Manak<em>AI</em></span>
+      </a>
+
+      <!-- No-JS hamburger: label toggles a hidden checkbox, menu stays reachable by keyboard -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+      <label for="nav-toggle" class="nav-toggle" aria-label="Menu">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#menu"/></svg>
+        <span class="visually-hidden">Menu</span>
+      </label>
+
+      <nav class="site-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="journey-start.html">Start the Journey</a></li>
+                      <li><a class="btn btn-ghost btn-sm" href="login.html">Log in</a></li>
+            <li><a class="btn btn-primary btn-sm" href="register.html">Sign up</a></li>
+                  </ul>
+      </nav>
+    </div>
+  </header>
+
+    <nav class="bottom-nav" aria-label="App">
+    <ul>
+      <li><a href="dashboard.html" >
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#home"/></svg><span>Home</span></a></li>
+      <li><a href="journey-start.html" aria-current=&quot;page&quot;>
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#compass"/></svg><span>Journey</span></a></li>
+      <li><a href="profile.html" >
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#user"/></svg><span>Profile</span></a></li>
+    </ul>
+  </nav>
+  
+  <div id="offline-banner" class="offline-banner" hidden>
+    <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#offline"/></svg>
+    You appear to be offline. Some pages may not be available.
+  </div>
+
+  <main id="main" class="site-main has-bottom-nav">
+    <!-- Journey start — a guided consultation, NOT a chat wall (docs/frontend-plan.md §4).
+     Expects: it.journeyId, it.messages [{role, content}], it.question (current question or null),
+     it.step, it.totalSteps, it.planReady (bool), it.plan {product, industry, requirements[], tests[]},
+     it.error (string|null).
+     The form POSTs to /journey/start without JS; with JS the chat.js island
+     posts JSON to /api/journeys/:id/messages and appends turns. -->
+<section class="section" aria-labelledby="js-title">
+  <div class="container narrow">
+    <header class="page-head">
+      <h1 id="js-title">Let's understand your product.</h1>
+      <ol class="dots" aria-label="Consultation progress">
+                <li class="dot "><span class="visually-hidden">Step 1: upcoming</span></li>
+                <li class="dot "><span class="visually-hidden">Step 2: upcoming</span></li>
+                <li class="dot "><span class="visually-hidden">Step 3: upcoming</span></li>
+                <li class="dot "><span class="visually-hidden">Step 4: upcoming</span></li>
+                <li class="dot "><span class="visually-hidden">Step 5: upcoming</span></li>
+              </ol>
+    </header>
+
+    
+    <div class="consultation" data-chat-island data-on-done="/journey/00000000-0000-0000-0000-000000000001/checklist">
+            <ul class="chat-log consultation-log" data-chat-log aria-label="Consultation so far" hidden></ul>
+      
+              <div class="card question-card" aria-live="polite">
+          <p class="question-label">ManakAI asks</p>
+          <p class="question-text" data-question>Describe the product you make, import or plan to sell — in your own words.</p>
+        </div>
+
+        <form method="post" action="journey-start.html" class="chat-form" data-chat
+              data-api="/api/journeys/00000000-0000-0000-0000-000000000001/messages"
+              data-stream="/api/journeys/00000000-0000-0000-0000-000000000001/messages/stream">
+          <label class="visually-hidden" for="js-answer">Your answer</label>
+          <textarea id="js-answer" name="content" rows="3" required
+            placeholder="For example: LED bulbs for household lighting"></textarea>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+        <p class="chat-status" data-chat-status aria-hidden="true"></p>
+          </div>
+  </div>
+</section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-tagline">From Product to Compliance.</p>
+      <p class="footer-note">ManakAI provides guidance based on official sources. It is not official BIS approval.
+        Always verify requirements with the Bureau of Indian Standards.</p>
+      <p class="footer-copy">&copy; 2026 ManakAI</p>
+    </div>
+  </footer>
+
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/nav.js"></script>
+  <script type="module" src="js/offline.js"></script>
+</body>
+</html>
