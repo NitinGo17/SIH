@@ -1,0 +1,6 @@
+<!-- Shared empty state: no products / no journey yet. -->
+<div class="card empty-state">
+  <svg aria-hidden="true" focusable="false"><use href="/icons.svg#compass"/></svg>
+  <p>Your compliance journey starts with understanding your product.</p>
+  <a class="btn btn-primary" href="/journey/start">Start Your Journey</a>
+</div>
