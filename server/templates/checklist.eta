@@ -1,0 +1,63 @@
+<!-- Checklist — the heart of the product.
+     Expects: it.journeyId, it.product {name, category}, it.progressPct,
+     it.tasks [{id, position, title, stage, state, completedAt}],
+     it.error (string|null). -->
+<section class="section" aria-labelledby="cl-title">
+  <div class="container narrow">
+    <header class="page-head">
+      <h1 id="cl-title"><%= it.product.name %></h1>
+      <p class="page-sub">Your compliance checklist</p>
+    </header>
+
+    <div class="checklist-progress">
+      <div class="progress" role="progressbar" aria-valuenow="<%= it.progressPct %>" aria-valuemin="0" aria-valuemax="100"
+           aria-label="Checklist progress">
+        <div class="progress-bar" style="width: <%= it.progressPct %>%"></div>
+      </div>
+      <p class="progress-label"><%= it.progressPct %>% complete</p>
+    </div>
+
+    <% if (it.error === 'CHECKLIST_UNAVAILABLE') { %>
+    <div class="form-error" role="alert">
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#alert"/></svg>
+      We couldn't load your checklist right now. Your progress has not been lost. Please try again.
+    </div>
+    <% } %>
+
+    <% if (!it.tasks || it.tasks.length === 0) { %>
+    <div class="card empty-state">
+      <svg aria-hidden="true" focusable="false"><use href="/icons.svg#checklist"/></svg>
+      <p>No tasks yet — start the journey to build your checklist.</p>
+      <a class="btn btn-primary" href="/journey/start">Start Your Journey</a>
+    </div>
+    <% } else { %>
+    <ol class="task-list" role="list">
+      <% it.tasks.forEach(function (t) { %>
+      <li class="card task-card task-card-<%= t.state === 'locked' ? 'locked' : '' %>">
+        <div class="task-card-head">
+          <span class="task-number" aria-hidden="true">TASK <%= String(t.position).padStart(2, '0') %></span>
+          <%~ include('partials/task-state', {t: t}) %>
+        </div>
+        <h2 class="task-title"><%= t.title %></h2>
+        <div class="task-card-actions">
+          <% if (t.state === 'locked') { %>
+            <span class="task-locked-note"><svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="/icons.svg#lock"/></svg> Complete the earlier tasks first</span>
+          <% } else { %>
+            <a class="btn <%= t.state === 'completed' ? 'btn-quiet' : 'btn-primary' %>"
+               href="/journey/<%= it.journeyId %>/task/<%= t.id %>">
+              <% if (t.state === 'in_progress') { %>Continue<% } else if (t.state === 'completed') { %>Review<% } else { %>Open task<% } %>
+            </a>
+          <% } %>
+        </div>
+      </li>
+      <% }) %>
+    </ol>
+    <% } %>
+
+    <p class="checklist-links">
+      <a href="/journey/<%= it.journeyId %>/testing">Testing & labs</a> ·
+      <a href="/journey/<%= it.journeyId %>/history">Journey history</a> ·
+      <a href="/products">My Products</a>
+    </p>
+  </div>
+</section>
