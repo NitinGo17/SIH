@@ -1,0 +1,46 @@
+<!-- Task-scoped AI continuation. Expects: it.journeyId, it.task {id, position, title},
+     it.messages [{role, content}], it.citationsShown (bool). The conversation per
+     (journey, stage) never restarts (docs/api.md §8). -->
+<section class="section" aria-labelledby="ta-title">
+  <div class="container narrow">
+    <header class="page-head">
+      <p class="task-number" aria-hidden="true">TASK <%= String(it.task.position).padStart(2, '0') %></p>
+      <h1 id="ta-title"><%= it.task.title %></h1>
+      <p class="page-sub">ManakAI continues where you left off — it already knows what you
+        have completed and will not re-ask answered questions.</p>
+    </header>
+
+    <div class="chat-island" data-chat-island
+         data-task-page="/journey/<%= it.journeyId %>/task/<%= it.task.id %>"
+         data-complete-url="/api/tasks/<%= it.task.id %>/complete">
+      <ul class="chat-log" data-chat-log aria-label="Task assistance conversation">
+        <% (it.messages || []).forEach(function (m) { %>
+        <li class="chat-msg chat-msg-<%= m.role %>">
+          <p><%= m.content %></p>
+          <% if (m.citations && m.citations.length) { %>
+          <ul class="citation-list" role="list">
+            <% m.citations.forEach(function (c) { %>
+            <li><a href="<%= c.url %>" target="_blank" rel="noopener noreferrer"><%= c.title %></a></li>
+            <% }) %>
+          </ul>
+          <% } %>
+        </li>
+        <% }) %>
+      </ul>
+
+      <form method="post" action="/journey/<%= it.journeyId %>/task/<%= it.task.id %>/assist" class="chat-form" data-chat
+            data-api="/api/tasks/<%= it.task.id %>/assist/messages">
+        <label class="visually-hidden" for="ta-input">Ask ManakAI about this task</label>
+        <textarea id="ta-input" name="content" rows="2" required
+          placeholder="Ask anything about this task — for example: where do I get the dimensions tested?"></textarea>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+      <p class="chat-status" data-chat-status aria-hidden="true"></p>
+    </div>
+
+    <p class="task-back">
+      <a href="/journey/<%= it.journeyId %>/task/<%= it.task.id %>">Back to the task</a> ·
+      <a href="/journey/<%= it.journeyId %>/checklist">Back to checklist</a>
+    </p>
+  </div>
+</section>
