@@ -1,0 +1,80 @@
+<!-- Testing & labs. Expects: it.journeyId, it.tests [{testId, name, purpose, status}],
+     it.labs [{name, city, state, capabilities, website, source, lastVerified}] | null (null = no search yet),
+     it.selectedTestId, it.disclaimer (from the API), it.lastVerified. -->
+<section class="section" aria-labelledby="t-title">
+  <div class="container narrow">
+    <header class="page-head">
+      <h1 id="t-title">Testing & labs</h1>
+      <p class="page-sub">The tests your journey requires, and where they can be done.</p>
+    </header>
+
+    <% if (!it.tests || it.tests.length === 0) { %>
+    <div class="card empty-state">
+      <svg aria-hidden="true" focusable="false"><use href="/icons.svg#lab"/></svg>
+      <p>No tests are listed for this journey yet. They appear here once discovery identifies them.</p>
+      <a class="btn btn-primary" href="/journey/<%= it.journeyId %>/checklist">Back to checklist</a>
+    </div>
+    <% } else { %>
+    <section class="card task-section" aria-labelledby="t-tests">
+      <h2 id="t-tests">Required tests</h2>
+      <ul class="test-list" role="list">
+        <% it.tests.forEach(function (t) { %>
+        <li class="test-item">
+          <div class="test-item-head">
+            <span class="test-name"><%= t.name %></span>
+            <span class="badge <%= t.status === 'completed' ? 'badge-success' : '' %>">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#<%= t.status === 'completed' ? 'check' : 'clock' %>"/></svg>
+              <%= t.status === 'completed' ? 'Completed' : 'Not completed' %>
+            </span>
+          </div>
+          <p class="test-purpose"><%= t.purpose %></p>
+        </li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <section class="card task-section" aria-labelledby="t-labs">
+      <h2 id="t-labs">Find a relevant lab</h2>
+      <form method="get" action="/journey/<%= it.journeyId %>/testing" class="lab-search">
+        <label for="lab-test">Search by test</label>
+        <div class="lab-search-row">
+          <select id="lab-test" name="testId">
+            <option value="">Any capability</option>
+            <% it.tests.forEach(function (t) { %>
+            <option value="<%= t.testId %>" <% if (it.selectedTestId === t.testId) { %>selected<% } %>><%= t.name %></option>
+            <% }) %>
+          </select>
+          <button type="submit" class="btn btn-primary">
+            <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="/icons.svg#search"/></svg>
+            Search labs
+          </button>
+        </div>
+      </form>
+
+      <% if (it.labs === null) { %>
+      <% } else if (it.labs.length === 0) { %>
+      <div class="notice">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#unknown"/></svg>
+        No matching lab was found in the official BIS list. This may be incomplete — check with BIS directly.
+      </div>
+      <% } else { %>
+      <ul class="lab-list" role="list">
+        <% it.labs.forEach(function (l) { %>
+        <li class="lab-card">
+          <h3 class="lab-name"><%= l.name %></h3>
+          <p class="lab-meta"><%= l.city %>, <%= l.state %> · <%= l.capabilities %></p>
+          <% if (l.website) { %><p><a href="<%= l.website %>" target="_blank" rel="noopener noreferrer">Lab website</a></p><% } %>
+          <p class="hint">Source: <%= l.source %> · Last verified: <%= l.lastVerified %></p>
+        </li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <p class="disclaimer" role="note">
+        <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="/icons.svg#alert"/></svg>
+        <%= it.disclaimer || 'Verify current recognition and availability with BIS.' %>
+      </p>
+    </section>
+    <% } %>
+  </div>
+</section>
