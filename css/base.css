@@ -362,6 +362,103 @@ dialog.confirm-dialog::backdrop { background: rgba(22, 33, 58, .45); }
 .progress-bar { background: var(--grad-primary); height: 100%; border-radius: 999px; transition: width .3s ease-out; }
 .progress-label { font-size: var(--fs-sm); color: var(--c-ink-2); font-weight: 600; }
 
+
+/* ---------- 7b. Home: hero extras, authorities strip, sections v2 ---------- */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: 4px var(--space-3);
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+  color: var(--hero-ink);
+  font-size: var(--fs-sm); font-weight: 600;
+}
+.hero-badge .icon { color: #f2b583; }
+.hero-chips {
+  list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2);
+  margin: var(--space-5) 0 0; padding: 0;
+}
+.hero-chips li {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px var(--space-3);
+  font-size: var(--fs-sm); font-weight: 600; color: var(--hero-ink-2);
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 999px;
+}
+.hero-chips li::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: #f2b583; flex: 0 0 auto;
+}
+.eyebrow {
+  margin: 0 0 var(--space-1);
+  font-size: .8125rem; font-weight: 800; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--c-accent-ink);
+}
+.section-title { font-size: var(--fs-h2); margin-bottom: var(--space-6); }
+
+.authorities { border-bottom: 1px solid var(--c-border); background: var(--c-surface); }
+.authorities-inner {
+  display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+}
+.authorities-label {
+  font-size: .75rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--c-ink-2);
+}
+.authorities-list { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin: 0; padding: 0; }
+.authorities-list li { font-weight: 700; color: var(--c-ink); }
+.authorities-list li::before { content: "\25CF\00A0"; color: var(--c-primary); font-size: .6em; vertical-align: 2px; }
+
+.how-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; margin-bottom: var(--space-3);
+  border-radius: var(--r-md);
+  background: var(--grad-primary); color: #fff;
+  box-shadow: 0 3px 10px rgba(49, 85, 217, .3), 0 1px 2px rgba(23, 21, 59, .15);
+}
+.how-icon .icon { width: 26px; height: 26px; }
+.how-card h3 { margin-bottom: var(--space-2); font-size: 1.0625rem; }
+.how-card p { margin: 0; color: var(--c-ink-2); }
+
+.cta-card-dark {
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-3);
+  padding: var(--space-7) var(--space-5);
+  border-radius: var(--r-lg);
+  color: var(--hero-ink);
+  background:
+    radial-gradient(700px 300px at 85% -20%, rgba(217, 139, 95, .28), transparent 60%),
+    radial-gradient(600px 300px at -10% 20%, rgba(90, 130, 255, .32), transparent 55%),
+    linear-gradient(158deg, #221f56 0%, #17153b 48%, #100e2c 100%);
+  box-shadow: var(--shadow-3);
+}
+.cta-card-dark p { max-width: 480px; color: var(--hero-ink-2); margin: 0; }
+.cta-card-dark .cta-title { margin: 0; color: #fff; }
+
+@media (min-width: 768px) {
+  .authorities-inner { flex-direction: row; align-items: center; justify-content: space-between; }
+  .hero-chips li { padding: 4px var(--space-4); }
+}
+
+/* ---------- 17b. App polish: cards, chat, progress ---------- */
+.task-card { position: relative; overflow: hidden; }
+.task-card::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--grad-primary); opacity: 0; transition: opacity .18s ease-out;
+}
+.task-card:hover::before { opacity: 1; }
+.chat-msg-user {
+  background: linear-gradient(135deg, #3d63e8 0%, #2c47c2 100%);
+  color: #fff; border-color: transparent;
+}
+.badge { box-shadow: 0 1px 2px rgba(23, 21, 59, .05); }
+.progress { height: 12px; }
+.page-head { margin-bottom: var(--space-6); }
+.page-head h1 { margin-bottom: var(--space-1); }
+.auth-card { box-shadow: var(--shadow-2); border-radius: var(--r-lg); }
+
 /* ---------- 14. Responsive ---------- */
 @media (min-width: 480px) {
   .pipeline-step { padding: var(--space-4) 0 var(--space-4) 64px; }

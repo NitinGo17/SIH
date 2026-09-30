@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  var VERSION = 'manakai-v1';
+  var VERSION = 'manakai-v2';
   var APP_SHELL = [
     '/css/base.css',
     '/icons.svg'

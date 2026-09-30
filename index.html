@@ -47,6 +47,7 @@
     <!-- Home page body. Rendered by routes/ and injected into layout.eta as `content`. -->
 <section class="hero">
   <div class="container">
+    <p class="hero-badge"><svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="icons.svg#shield"/></svg>BIS compliance guidance &middot; source-linked</p>
     <h1 class="hero-title">From Product to <span class="accent">Compliance.</span></h1>
     <p class="hero-sub">
       Tell ManakAI what you make or sell. Get a plain-language, step-by-step compliance
@@ -56,15 +57,31 @@
       <a class="btn btn-primary btn-lg" href="register.html">Start Your Journey</a>
       <a class="btn btn-ghost btn-lg" href="login.html">Log in</a>
     </div>
+    <ul class="hero-chips" role="list">
+      <li>Every claim links to a source</li>
+      <li>Works on old phones & slow networks</li>
+      <li>Guidance, not government approval</li>
+    </ul>
     <p class="hero-note">
       Built for Indian MSMEs, manufacturers, startups and importers.
-      Guidance, not government approval &mdash; every claim links to its source.
     </p>
+  </div>
+</section>
+
+<section class="authorities" aria-label="Sources ManakAI guidance is grounded in">
+  <div class="container authorities-inner">
+    <span class="authorities-label">Grounded in official sources</span>
+    <ul class="authorities-list" role="list">
+      <li>Bureau of Indian Standards</li>
+      <li>e-Gazette of India</li>
+      <li>BIS-recognized labs</li>
+    </ul>
   </div>
 </section>
 
 <section class="pipeline-section" aria-labelledby="pipeline-title">
   <div class="container">
+    <p class="eyebrow">The journey</p>
     <h2 id="pipeline-title" class="section-title">How a journey works</h2>
     <ol class="pipeline" role="list">
       <li class="pipeline-step">
@@ -98,20 +115,24 @@
 
 <section class="how-section" aria-labelledby="how-title">
   <div class="container">
-    <h2 id="how-title" class="section-title">How ManakAI works</h2>
+    <p class="eyebrow">Why ManakAI</p>
+    <h2 id="how-title" class="section-title">A consultation, not a chat wall</h2>
     <div class="how-grid">
       <article class="card how-card">
-        <h3>1. A consultation, not a chat wall</h3>
-        <p>ManakAI asks only the questions it needs to understand your product &mdash; using your
+        <div class="how-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#compass"/></svg></div>
+        <h3>Only the questions it needs</h3>
+        <p>ManakAI asks only what it must to understand your product &mdash; using your
           profile, so nothing is asked twice.</p>
       </article>
       <article class="card how-card">
-        <h3>2. A checklist that remembers</h3>
+        <div class="how-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#checklist"/></svg></div>
+        <h3>A checklist that remembers</h3>
         <p>The result is a persistent, structured checklist: what applies to you, what you have
           completed, and what to do next.</p>
       </article>
       <article class="card how-card">
-        <h3>3. Sources you can check</h3>
+        <div class="how-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#doc"/></svg></div>
+        <h3>Sources you can check</h3>
         <p>Every requirement shows its source: authority, document, section and the date it was
           last verified. When something is unknown, it says so.</p>
       </article>
@@ -121,6 +142,7 @@
 
 <section class="trust-section" aria-labelledby="trust-title">
   <div class="container">
+    <p class="eyebrow">Trust</p>
     <h2 id="trust-title" class="section-title">Why you can trust what you see</h2>
     <ul class="trust-list" role="list">
       <li>
@@ -144,7 +166,7 @@
 
 <section class="cta-section">
   <div class="container">
-    <div class="card cta-card">
+    <div class="cta-card-dark">
       <h2 class="cta-title">Ready when you are</h2>
       <p>Start with a few details about your product. The first checklist step is usually
         ready in minutes.</p>
