@@ -31,7 +31,11 @@ export async function buildApp(opts = {}) {
     trustProxy: true,
   });
 
-  await app.register(dbPlugin, { databaseUrl: opts.databaseUrl ?? process.env.DATABASE_URL ?? null });
+  await app.register(dbPlugin, {
+    // explicit null means "no database" — do NOT fall back to the environment
+    // (unit tests rely on this; CI runs them with DATABASE_URL set)
+    databaseUrl: opts.databaseUrl !== undefined ? opts.databaseUrl : (process.env.DATABASE_URL ?? null),
+  });
 
   await app.register(fastifyStatic, {
     root: path.join(here, 'public'),

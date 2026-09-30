@@ -12,7 +12,7 @@
 // backend (login, chat, checklists) are absent by design — the JS islands
 // call /api/* and fail silently when the backend is not there.
 import path from 'node:path';
-import { cp, mkdir, rm, unlink, writeFile } from 'node:fs/promises';
+import { cp, rm, unlink, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { PAGES, render } from '../routes/pages.js';
