@@ -1,0 +1,94 @@
+<!-- Task detail. Expects: it.journeyId, it.task {id, position, title, stage, state, explanation,
+     requirements [{label, done}], documents [], sources [{authority, documentTitle, section, lastVerified, url}]},
+     it.completed (bool — success state after completion), it.nextTask {id, title} | null. -->
+<section class="section" aria-labelledby="td-title">
+  <div class="container narrow">
+    <% if (it.completed) { %>
+    <div class="card success-card" role="status">
+      <svg class="icon success-icon" aria-hidden="true" focusable="false"><use href="/icons.svg#check"/></svg>
+      <h1 class="success-title">Stage completed. Your next step is ready.</h1>
+      <div class="btn-row btn-row-center">
+        <% if (it.nextTask) { %>
+        <a class="btn btn-primary" href="/journey/<%= it.journeyId %>/task/<%= it.nextTask.id %>">Continue to next task</a>
+        <% } %>
+        <a class="btn btn-quiet" href="/journey/<%= it.journeyId %>/checklist">Return to checklist</a>
+        <a class="btn btn-quiet" href="/journey/<%= it.journeyId %>/history">Review previous stage</a>
+      </div>
+    </div>
+    <% } else { %>
+
+    <header class="page-head">
+      <p class="task-number" aria-hidden="true">TASK <%= String(it.task.position).padStart(2, '0') %></p>
+      <h1 id="td-title"><%= it.task.title %></h1>
+      <%~ include('partials/task-state', {t: it.task}) %>
+    </header>
+
+    <section class="card task-section" aria-labelledby="td-why">
+      <h2 id="td-why">Why this matters</h2>
+      <p><%= it.task.explanation %></p>
+    </section>
+
+    <section class="card task-section" aria-labelledby="td-do">
+      <h2 id="td-do">What you need to do</h2>
+      <ul class="req-list" role="list">
+        <% it.task.requirements.forEach(function (r, i) { %>
+        <li class="req-item">
+          <input type="checkbox" id="req-<%= it.task.id %>-<%= i %>" class="req-checkbox"
+                 <% if (r.done) { %>checked<% } %>
+                 data-task-requirement="<%= r.label %>" data-task-id="<%= it.task.id %>"
+                 <% if (it.task.state === 'locked') { %>disabled<% } %>>
+          <label for="req-<%= it.task.id %>-<%= i %>">
+            <%= r.label %>
+            <span class="req-state"><%= r.done ? 'Done' : 'Not done yet' %></span>
+          </label>
+        </li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <% if (it.task.documents && it.task.documents.length) { %>
+    <section class="card task-section" aria-labelledby="td-need">
+      <h2 id="td-need">What you may need</h2>
+      <ul class="doc-list" role="list">
+        <% it.task.documents.forEach(function (d) { %>
+        <li><svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="/icons.svg#doc"/></svg> <%= d %></li>
+        <% }) %>
+      </ul>
+      <p class="hint">ManakAI never requires you to upload these. They simply come up in most journeys like yours.</p>
+    </section>
+    <% } %>
+
+    <section class="task-sources" aria-labelledby="td-source">
+      <h2 id="td-source">Source</h2>
+      <% it.task.sources.forEach(function (s) { %>
+        <%~ include('partials/source-card', {s: s}) %>
+      <% }) %>
+    </section>
+
+    <div class="btn-row task-actions">
+      <a class="btn btn-primary" href="/journey/<%= it.journeyId %>/task/<%= it.task.id %>/assist">
+        Continue with ManakAI
+      </a>
+      <form method="post" action="/journey/<%= it.journeyId %>/task/<%= it.task.id %>/complete" class="inline-form">
+        <button type="submit" class="btn btn-quiet" data-complete-task="/api/tasks/<%= it.task.id %>/complete">
+          <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="/icons.svg#check"/></svg>
+          Mark as Completed
+        </button>
+      </form>
+    </div>
+
+    <dialog id="complete-dialog" class="confirm-dialog" aria-labelledby="cd-title">
+      <form method="dialog">
+        <h2 id="cd-title">Have you completed this task?</h2>
+        <p class="hint">It stays in your checklist — you can reopen it any time.</p>
+        <div class="btn-row btn-row-center">
+          <button type="submit" value="yes" class="btn btn-primary" data-confirm>Yes</button>
+          <button type="submit" value="no" class="btn btn-quiet" data-cancel>Not yet</button>
+        </div>
+      </form>
+    </dialog>
+
+    <p class="task-back"><a href="/journey/<%= it.journeyId %>/checklist">Back to checklist</a></p>
+    <% } %>
+  </div>
+</section>
