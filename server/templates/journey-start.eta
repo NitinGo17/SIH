@@ -1,0 +1,64 @@
+<!-- Journey start — a guided consultation, NOT a chat wall (docs/frontend-plan.md §4).
+     Expects: it.journeyId, it.messages [{role, content}], it.question (current question or null),
+     it.step, it.totalSteps, it.planReady (bool), it.plan {product, industry, requirements[], tests[]},
+     it.error (string|null).
+     The form POSTs to /journey/start without JS; with JS the chat.js island
+     posts JSON to /api/journeys/:id/messages and appends turns. -->
+<section class="section" aria-labelledby="js-title">
+  <div class="container narrow">
+    <header class="page-head">
+      <h1 id="js-title">Let's understand your product.</h1>
+      <ol class="dots" aria-label="Consultation progress">
+        <% for (var d = 1; d <= (it.totalSteps || 4); d++) { %>
+        <li class="dot <%= d < it.step ? 'dot-done' : (d === it.step ? 'dot-current' : '') %>"><span class="visually-hidden">Step <%= d %>: <%= d < it.step ? 'done' : (d === it.step ? 'current' : 'upcoming') %></span></li>
+        <% } %>
+      </ol>
+    </header>
+
+    <% if (it.error === 'AI_UNAVAILABLE') { %>
+    <div class="form-error" role="alert">
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#alert"/></svg>
+      ManakAI couldn't complete that request. Your checklist hasn't been changed.
+      <form method="post" action="/journey/<%= it.journeyId %>/retry" class="inline-form">
+        <button type="submit" class="btn btn-quiet btn-sm">Try again</button>
+      </form>
+    </div>
+    <% } %>
+
+    <div class="consultation" data-chat-island data-on-done="/journey/<%= it.journeyId %>/checklist">
+      <% if (it.messages && it.messages.length) { %>
+      <ul class="chat-log consultation-log" data-chat-log aria-label="Consultation so far">
+        <% it.messages.forEach(function (m) { %>
+        <li class="chat-msg chat-msg-<%= m.role %>"><p><%= m.content %></p></li>
+        <% }) %>
+      </ul>
+      <% } else { %>
+      <ul class="chat-log consultation-log" data-chat-log aria-label="Consultation so far" hidden></ul>
+      <% } %>
+
+      <% if (it.planReady && it.plan) { %>
+        <%~ include('partials/plan-summary') %>
+        <form method="post" action="/journey/<%= it.journeyId %>/checklist" class="plan-cta">
+          <h2>Your compliance journey is ready.</h2>
+          <button type="submit" class="btn btn-primary btn-lg">Create My Checklist</button>
+          <p class="hint">You can come back and change any answer later.</p>
+        </form>
+      <% } else { %>
+        <div class="card question-card" aria-live="polite">
+          <p class="question-label">ManakAI asks</p>
+          <p class="question-text" data-question><%= it.question || 'Describe the product you make, import or plan to sell — in your own words.' %></p>
+        </div>
+
+        <form method="post" action="/journey/start" class="chat-form" data-chat
+              data-api="/api/journeys/<%= it.journeyId %>/messages"
+              data-stream="/api/journeys/<%= it.journeyId %>/messages/stream">
+          <label class="visually-hidden" for="js-answer">Your answer</label>
+          <textarea id="js-answer" name="content" rows="3" required
+            placeholder="For example: LED bulbs for household lighting"></textarea>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+        <p class="chat-status" data-chat-status aria-hidden="true"></p>
+      <% } %>
+    </div>
+  </div>
+</section>
