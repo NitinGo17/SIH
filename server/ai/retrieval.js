@@ -24,6 +24,7 @@ export async function retrieve(db, query, opts = {}) {
      FROM kb_chunks c
      JOIN kb_documents d ON d.id = c.document_id
      JOIN sources s ON s.id = d.source_id
+     LEFT JOIN standards st ON st.latest_source = s.id
      
      WHERE s.id IN (
        SELECT s2.id FROM sources s2  -- keyword safety net
