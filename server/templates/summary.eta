@@ -1,0 +1,82 @@
+<!-- Final compliance summary. Expects: it.journeyId, it.product {name, category},
+     it.standards [{title, confidence}], it.tests [{name, status}], it.documents [],
+     it.certification {status, note}, it.outstanding [{title}], it.sourcesCount,
+     it.sources [...]. Summary matches persisted data only (Phase 7 gate). -->
+<section class="section" aria-labelledby="s-title">
+  <div class="container narrow">
+    <header class="page-head">
+      <h1 id="s-title">Your compliance summary</h1>
+      <p class="page-sub"><%= it.product.name %><% if (it.product.category) { %> · <%= it.product.category %><% } %></p>
+    </header>
+
+    <div class="card success-card" role="status">
+      <svg class="icon success-icon" aria-hidden="true" focusable="false"><use href="/icons.svg#shield"/></svg>
+      <p>All tasks completed. This is a full summary of your journey — with sources.</p>
+    </div>
+
+    <section class="card task-section" aria-labelledby="s-standards">
+      <h2 id="s-standards">Standards and requirements</h2>
+      <ul class="plan-list" role="list">
+        <% it.standards.forEach(function (s) { %>
+        <li class="plan-item">
+          <div class="plan-item-head">
+            <span class="plan-item-title"><%= s.title %></span>
+            <%~ include('partials/confidence', {r: s}) %>
+          </div>
+        </li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <section class="card task-section" aria-labelledby="s-tests">
+      <h2 id="s-tests">Testing</h2>
+      <ul class="test-list" role="list">
+        <% it.tests.forEach(function (t) { %>
+        <li class="test-item">
+          <div class="test-item-head">
+            <span class="test-name"><%= t.name %></span>
+            <span class="badge <%= t.status === 'completed' ? 'badge-success' : 'badge-warn' %>">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#<%= t.status === 'completed' ? 'check' : 'alert' %>"/></svg>
+              <%= t.status === 'completed' ? 'Completed' : 'Outstanding' %>
+            </span>
+          </div>
+        </li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <section class="card task-section" aria-labelledby="s-docs">
+      <h2 id="s-docs">Documents</h2>
+      <ul class="doc-list" role="list">
+        <% it.documents.forEach(function (d) { %><li><svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="/icons.svg#doc"/></svg> <%= d %></li><% }) %>
+      </ul>
+    </section>
+
+    <section class="card task-section" aria-labelledby="s-cert">
+      <h2 id="s-cert">Certification status</h2>
+      <p><%= it.certification.status %></p>
+      <% if (it.certification.note) { %><p class="hint"><%= it.certification.note %></p><% } %>
+    </section>
+
+    <% if (it.outstanding && it.outstanding.length) { %>
+    <section class="card task-section" aria-labelledby="s-out">
+      <h2 id="s-out">Outstanding actions</h2>
+      <ul class="doc-list" role="list">
+        <% it.outstanding.forEach(function (o) { %><li><svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="/icons.svg#alert"/></svg> <%= o.title %></li><% }) %>
+      </ul>
+    </section>
+    <% } %>
+
+    <section class="task-sources" aria-labelledby="s-sources">
+      <h2 id="s-sources">Sources (<%= it.sources.length %>)</h2>
+      <% it.sources.forEach(function (s) { %>
+        <%~ include('partials/source-card', {s: s}) %>
+      <% }) %>
+    </section>
+
+    <p class="checklist-links">
+      <a href="/journey/<%= it.journeyId %>/history">Journey history</a> ·
+      <a href="/products">My Products</a>
+    </p>
+  </div>
+</section>
