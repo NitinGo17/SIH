@@ -65,12 +65,16 @@ test(
       }
     }
 
-    // PHASE-4 GATE: no requirement in the DB may have confidence 'confirmed'
-    // (all seed rows are verified=false — human review not done yet).
+    // PHASE-4 GATE: the seed now carries team-reviewed, verified rows, so a
+    // 'confirmed' requirement is legitimate — but it must remain traceable
+    // to at least one cited source. Demotion of requirements backed only by
+    // unverified rows is covered by the ai.unit.test.js gate tests.
     const check = await app.inject({ method: 'GET', url: `/api/journeys/${journey.json().journeyId}/plan`, cookies: cookies() });
     const allReqs = check.json().summary.requirements;
     for (const r of allReqs) {
-      assert.notEqual(r.confidence, 'confirmed', 'unverified sources must never yield confirmed');
+      if (r.confidence === 'confirmed') {
+        assert.ok(Array.isArray(r.sourceIds) && r.sourceIds.length > 0, 'confirmed requirements must cite sources');
+      }
     }
 
     // checklist built from discovery requirements carries source traceability
