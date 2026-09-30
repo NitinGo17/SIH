@@ -1,0 +1,12 @@
+<% var r = it.r; %>
+<!-- Shared ConfidenceBadge. Expects `r`: {confidence: confirmed | likely | unknown}.
+     Icon + label + text, never color alone. Unknown copy per docs/product.md §6. -->
+<% var CONF = {
+  confirmed: {icon: 'check', label: 'Confirmed', cls: 'badge-success'},
+  likely: {icon: 'alert', label: 'Requires verification', cls: 'badge-warn'},
+  unknown: {icon: 'unknown', label: 'Unknown', cls: 'badge-warn'}
+}; %>
+<span class="badge <%= CONF[r.confidence] ? CONF[r.confidence].cls : '' %>">
+  <svg class="icon" aria-hidden="true" focusable="false"><use href="/icons.svg#<%= CONF[r.confidence] ? CONF[r.confidence].icon : 'unknown' %>"/></svg>
+  <%= CONF[r.confidence] ? CONF[r.confidence].label : 'Unknown' %>
+</span>
