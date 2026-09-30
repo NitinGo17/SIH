@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= it.title %></title>
   <meta name="description" content="<%= it.description %>">
-  <meta name="theme-color" content="#16213a">
+  <meta name="theme-color" content="#17153b">
   <%~ it.og || '' %>
   <link rel="stylesheet" href="/css/base.css">
   <link rel="icon" href="/icons.svg#logo" type="image/svg+xml">
