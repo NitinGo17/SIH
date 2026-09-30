@@ -184,7 +184,11 @@ export async function completeTask(db, userId, taskId) {
 /** POST /api/tasks/:id/requirements — persist checkbox state. */
 export async function setTaskRequirement(db, userId, taskId, label, done) {
   const task = await getTask(db, userId, taskId);
-  const reqs = (task.requirements ?? []).map((r) => (r.label === label ? { ...r, done } : r));
+  const existing = task.requirements ?? [];
+  const found = existing.some((r) => r.label === label);
+  const reqs = found
+    ? existing.map((r) => (r.label === label ? { ...r, done } : r))
+    : [...existing, { label, done }];
   await db.query(`UPDATE tasks SET requirements = $2 WHERE id = $1`, [taskId, JSON.stringify(reqs)]);
   return getTask(db, userId, taskId);
 }

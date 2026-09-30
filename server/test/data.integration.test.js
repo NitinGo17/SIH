@@ -3,7 +3,6 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { buildApp } from '../app.js';
 import { migrate } from '../db/migrate.js';
-import { generateToken } from '../lib/tokens.js';
 
 const hasDb = Boolean(process.env.DATABASE_URL);
 const skip = !hasDb ? 'DATABASE_URL not set' : false;

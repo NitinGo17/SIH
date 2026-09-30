@@ -189,14 +189,22 @@ export default async function dataApi(fastify) {
     if (!requireAuth(fastify, req, reply)) return;
     const { testId, capability } = req.query ?? {};
     // Only rows from the curated, official BIS list — never invented.
+    let capFilter = null;
+    if (testId && UUID_RE.test(testId)) {
+      // labs able to run this test: capabilities overlapping the test name
+      const { rows: tr } = await fastify.db.query(`SELECT name FROM tests WHERE id = $1`, [testId]);
+      if (tr.length > 0) {
+        const word = tr[0].name.toLowerCase().split(/[^a-z]+/).find((w) => w.length > 3);
+        if (word) capFilter = word;
+      }
+    }
     const { rows } = await fastify.db.query(
       `SELECT name, city, state, capabilities, website, last_verified
        FROM laboratories
-       WHERE ($1::uuid IS NULL OR $1::uuid IN (SELECT test_id FROM tests WHERE id = $1::uuid))
-         AND ($2::text IS NULL OR $2::text = ANY(capabilities))
-         AND verified = true
+       WHERE verified = true
+         AND ($1::text IS NULL OR EXISTS (SELECT 1 FROM unnest(capabilities) cap WHERE cap ILIKE '%' || $1::text || '%'))
        ORDER BY name LIMIT 100`,
-      [testId ?? null, capability ?? null]
+      [capability ?? capFilter]
     );
     return {
       disclaimer: 'Verify current recognition and availability with BIS.',
