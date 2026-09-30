@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "ManakAI backend — Fastify 5, Postgres + pgvector, server-rendered pages",
+  "description": "ManakAI backend \u2014 Fastify 5, Postgres + pgvector, server-rendered pages",
   "engines": {
     "node": ">=20"
   },
@@ -13,7 +13,8 @@
     "migrate": "node db/migrate.js",
     "lint": "eslint .",
     "test": "node --test test/",
-    "export:static": "node scripts/export-static.js"
+    "export:static": "node scripts/export-static.js",
+    "seed": "node ingestion/ingest.js ingestion/seed/led-lighting.json"
   },
   "dependencies": {
     "@fastify/cookie": "^11.1.2",

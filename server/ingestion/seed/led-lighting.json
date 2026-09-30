@@ -1,0 +1,36 @@
+{
+  "documents": [
+    {
+      "authority": "BIS",
+      "title": "IS 10322 (Part 5/Sec 2): Luminaires, Part 5 Particular requirements, Section 2 LED luminaires",
+      "section": "Scope",
+      "url": "https://bis.gov.in",
+      "last_verified": "2026-09-30",
+      "standard": "IS 10322-5-2",
+      "description": "Indian Standard covering particular requirements for LED luminaires — the general safety and performance requirements that LED lighting products placed on the Indian market are commonly checked against.",
+      "text": "Scope: This Indian Standard applies to LED luminaires for general lighting purposes. It states particular requirements for LED luminaires including construction, protection against electric shock, resistance to dust and moisture, insulation resistance and dielectric strength, endurance and thermal tests. Products within its scope are household and similar general-purpose LED lighting. This page is a seed placeholder: the text must be replaced with the actual clauses from the official BIS publication during team review before any row is marked verified.",
+      "verified": false
+    },
+    {
+      "authority": "BIS",
+      "title": "IS 302-2-1: Household and similar electrical appliances — Safety, Part 2-1 particular requirements",
+      "section": "Scope",
+      "url": "https://bis.gov.in",
+      "last_verified": "2026-09-30",
+      "standard": "IS 302-2-1",
+      "description": "Indian Standard covering safety requirements for household and similar electrical appliances, frequently referenced for electrical consumer goods.",
+      "text": "Scope: This standard deals with the safety of household and similar electrical appliances. It covers protection against access to live parts, starting and input current, heating, leakage current and electric strength at operating temperature, moisture resistance, overload protection of transformers, endurance, abnormal operation, stability and mechanical hazards, mechanical strength, construction, internal wiring, supply connection, components and screws and connections. This page is a seed placeholder: replace with the actual clauses from the official BIS publication during team review before marking verified.",
+      "verified": false
+    },
+    {
+      "authority": "Gazette of India",
+      "title": "Quality Control Orders — electrical and lighting product categories (overview page)",
+      "section": "General",
+      "url": "https://egazette.gov.in",
+      "last_verified": "2026-09-30",
+      "description": "Index of Quality Control Orders notified by the Government of India; products under a QCO must bear a BIS Standard Mark and cannot be produced, sold or imported without BIS certification.",
+      "text": "Quality Control Orders notified under the BIS Act make conformity to the applicable Indian Standard mandatory for the covered goods. Once a QCO covers a product category, no person shall manufacture, import, distribute, sell, hire, lease, store or exhibit for sale those goods without a BIS Standard Mark. The specific IS numbers, effective dates and exemptions are given in each individual gazette notification, which must be checked for the exact product. This page is a seed placeholder pointing at the e-gazette; verify the specific QCO notification for lighting products during team review.",
+      "verified": false
+    }
+  ]
+}

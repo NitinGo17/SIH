@@ -57,6 +57,25 @@ export async function createChecklist(db, userId, journeyId) {
       );
       position += 1;
     }
+    // compliance-specific tasks from validated AI discovery, with traceability
+    const { rows: reqs } = await client.query(
+      `SELECT jr.id, jr.title, jr.explanation, jr.why_it_matters, jr.confidence, jr.standard_id
+       FROM journey_requirements jr WHERE jr.journey_id = $1`, [journeyId]);
+    for (const r of reqs) {
+      const { rows: tr } = await client.query(
+        `INSERT INTO tasks (checklist_id, position, title, explanation, stage, state)
+         VALUES ($1, $2, $3, $4, 'requirements', 'locked') RETURNING id`,
+        [checklistId, position, `Verify: ${r.title}`, r.why_it_matters || r.explanation]
+      );
+      await client.query(`INSERT INTO task_requirements (task_id, journey_requirement_id) VALUES ($1, $2)`, [tr[0].id, r.id]);
+      if (r.standard_id) {
+        await client.query(
+          `INSERT INTO task_sources (task_id, source_id)
+           SELECT $1, s.id FROM standards st JOIN sources s ON s.id = st.latest_source
+           WHERE st.is_number = $2`, [tr[0].id, r.standard_id]);
+      }
+      position += 1;
+    }
     await client.query(`UPDATE journeys SET status = 'active', updated_at = now() WHERE id = $1`, [journeyId]);
     await client.query('COMMIT');
     return { checklistId, created: true };
