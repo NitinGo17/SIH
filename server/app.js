@@ -13,6 +13,8 @@ import rateLimitPlugin from './plugins/rate-limit.js';
 import healthz from './routes/healthz.js';
 import pageRoutes from './routes/pages.js';
 import pageAuthRoutes from './routes/page-auth.js';
+import dataApi from './routes/api/data.js';
+import pageDataRoutes from './routes/page-data.js';
 import authApi from './routes/api/auth.js';
 import profileApi from './routes/api/profile.js';
 import { sendError } from './lib/errors.js';
@@ -52,8 +54,10 @@ export async function buildApp(opts = {}) {
   await app.register(healthz);
   await app.register(authApi);
   await app.register(profileApi);
+  await app.register(dataApi);
   await app.register(pageRoutes);
   await app.register(pageAuthRoutes);
+  await app.register(pageDataRoutes);
 
   // Schema validation failures and unexpected errors -> consistent envelope on
   // /api/* (docs/api.md), plain message elsewhere.

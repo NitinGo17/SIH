@@ -6,7 +6,7 @@ All endpoints are served by the Node/Fastify backend. Authentication is a sessio
 { "error": { "code": "AI_UNAVAILABLE", "message": "ManakAI couldn't complete that request. Your checklist hasn't been changed." } }
 ```
 
-Error codes: `VALIDATION_ERROR`, `UNAUTHENTICATED`, `FORBIDDEN`, `NOT_FOUND`, `INVALID_CREDENTIALS`, `EMAIL_TAKEN`, `AI_UNAVAILABLE`, `RATE_LIMITED`, `QUOTA_EXCEEDED`, `OFFLINE_UNSYNCED`, `CONFLICT`.
+Error codes: `VALIDATION_ERROR`, `UNAUTHENTICATED`, `FORBIDDEN`, `NOT_FOUND`, `INVALID_CREDENTIALS`, `EMAIL_TAKEN`, `AI_UNAVAILABLE`, `RATE_LIMITED`, `QUOTA_EXCEEDED`, `OFFLINE_UNSYNCED`, `CONFLICT`, `UNAVAILABLE` (503 — a backend dependency such as the database is not configured or reachable).
 
 ## 1. Auth
 

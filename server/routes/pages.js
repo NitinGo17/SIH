@@ -7,6 +7,10 @@
 // Phase 2: session-aware rendering — `data(req)`/`meta(req)` receive the
 // request (null in the static export) so app pages can show the real user.
 import { pageData } from '../placeholders.js';
+import * as productsSvc from '../services/products.js';
+import * as checklistSvc from '../services/checklist.js';
+
+
 import { renderPage } from '../render.js';
 
 const J = '00000000-0000-0000-0000-000000000001'; // sample journey id (export/demo only)
@@ -207,6 +211,88 @@ export function render(page, req = null) {
 
 /** @param {import('fastify').FastifyInstance} fastify */
 export default async function pageRoutes(fastify) {
+  const real = async (route, fn) => {
+    const page = PAGES.find((p) => p.route === route);
+    if (!page) return;
+    const fallback = page.data;
+    page.data = async (req) => {
+      if (!req?.user || !fastify.dbEnabled) return fallback(req);
+      try {
+        return await fn(req);
+      } catch (e) {
+        req.log.warn({ err: e }, `data for ${route} failed`);
+        const data = await fallback(req);
+        return { ...data, error: 'CHECKLIST_UNAVAILABLE' };
+      }
+    };
+  };
+
+  real('/dashboard', async (req) => ({
+    user: { name: req.user.display_name },
+    greeting: greeting(),
+    hasJourney: true,
+    products: (await productsSvc.listProducts(fastify.db, req.user.id)).map((p) => ({
+      id: p.id, name: p.name, category: p.category, journeyProgress: p.journeyProgress,
+      currentStage: p.currentStage ?? 'Not started', nextAction: null, journeyId: p.journeyId,
+    })),
+    activity: await productsSvc.recentActivity(fastify.db, req.user.id),
+  }));
+
+  real('/products', async (req) => ({
+    products: (await productsSvc.listProducts(fastify.db, req.user.id)).map((p) => ({
+      id: p.id, name: p.name, category: p.category, origin: p.origin,
+      complianceStage: p.complianceStage, journeyProgress: p.journeyProgress, journeyId: p.journeyId,
+    })),
+  }));
+
+  real('/journey/:id/checklist', async (req) =>
+    checklistSvc.getChecklist(fastify.db, req.user.id, req.params.id)
+      .then((c) => c ?? Promise.reject(new Error('not found')))
+  );
+
+  real('/journey/:id/task/:taskId', async (req) => {
+    const task = await checklistSvc.getTask(fastify.db, req.user.id, req.params.taskId);
+    return {
+      journeyId: req.params.id,
+      task,
+      completed: task.state === 'completed',
+      nextTask: task.nextTask,
+    };
+  });
+
+  real('/journey/:id/testing', async (req) => {
+    const j = await productsSvc.getJourney(fastify.db, req.user.id, req.params.id);
+    if (!j) throw new Error('not found');
+    const { rows } = await fastify.db.query(
+      `SELECT t.id, t.name, t.purpose, jt.status FROM journey_tests jt
+       JOIN tests t ON t.id = jt.test_id WHERE jt.journey_id = $1`, [req.params.id]);
+    return {
+      journeyId: req.params.id,
+      tests: rows.map((r) => ({ testId: r.id, name: r.name, purpose: r.purpose, status: r.status })),
+      labs: null, selectedTestId: null, lastVerified: null,
+      disclaimer: 'Verify current recognition and availability with BIS.',
+    };
+  });
+
+  real('/journey/:id/history', async (req) => {
+    const j = await productsSvc.getJourney(fastify.db, req.user.id, req.params.id);
+    if (!j) throw new Error('not found');
+    const { rows } = await fastify.db.query(
+      `SELECT c.stage, m.role, m.content, m.created_at FROM conversations c
+       JOIN messages m ON m.conversation_id = c.id
+       WHERE c.journey_id = $1 ORDER BY c.stage, m.created_at`, [req.params.id]);
+    const stages = ['discovery', 'requirements', 'testing', 'documentation', 'certification']
+      .map((name) => ({ name, messages: [], lastActive: null }));
+    for (const r of rows) {
+      const st = stages.find((x) => x.name === r.stage);
+      if (st) {
+        st.messages.push({ role: r.role, content: r.content });
+        st.lastActive = r.created_at;
+      }
+    }
+    return { journeyId: req.params.id, stages, page: 1, pageCount: 1 };
+  });
+
   // Profile needs its real data (Phase 2) — handled here, not by the registry default.
   const profilePage = PAGES.find((p) => p.route === '/profile');
   const originalData = profilePage.data;
