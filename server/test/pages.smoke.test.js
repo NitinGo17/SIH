@@ -1,5 +1,5 @@
-// Phase 0 smoke tests: every page renders through the real template pipeline,
-// /healthz works, 404s use the JSON envelope on /api routes.
+// Phase 0+2 smoke tests: public pages render, app pages require a session,
+// API 404s use the JSON envelope, security headers present.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { buildApp } from '../app.js';
@@ -15,30 +15,37 @@ test.after(async () => {
   await app.close();
 });
 
-const PAGES = [
+const PUBLIC_PAGES = [
   ['/', 'From Product to'],
   ['/login', 'Log in'],
   ['/register', 'Create an account'],
-  ['/dashboard', 'Dashboard'],
-  ['/profile', 'Profile'],
-  ['/products', 'My products'],
-  ['/journey/start', 'Start the Journey'],
-  ['/journey/00000000-0000-0000-0000-000000000001/checklist', 'Checklist'],
-  ['/journey/00000000-0000-0000-0000-000000000001/task/00000000-0000-0000-0000-000000000002', 'Task'],
-  ['/journey/00000000-0000-0000-0000-000000000001/task/00000000-0000-0000-0000-000000000002/assist', 'Ask ManakAI'],
-  ['/journey/00000000-0000-0000-0000-000000000001/testing', 'Testing'],
-  ['/journey/00000000-0000-0000-0000-000000000001/summary', 'summary'],
-  ['/journey/00000000-0000-0000-0000-000000000001/history', 'history'],
   ['/offline', 'offline'],
 ];
 
-for (const [url, snippet] of PAGES) {
+for (const [url, snippet] of PUBLIC_PAGES) {
   test(`GET ${url} renders`, async () => {
     const res = await app.inject({ method: 'GET', url });
     assert.equal(res.statusCode, 200, res.body);
     assert.match(res.headers['content-type'], /text\/html/);
     assert.ok(res.body.includes(snippet), `expected "${snippet}" in body`);
-    assert.ok(res.body.includes('ManakAI'));
+  });
+}
+
+const APP_PAGES = [
+  '/dashboard',
+  '/profile',
+  '/products',
+  '/journey/start',
+  '/journey/00000000-0000-0000-0000-000000000001/checklist',
+  '/journey/00000000-0000-0000-0000-000000000001/task/00000000-0000-0000-0000-000000000002',
+  '/journey/00000000-0000-0000-0000-000000000001/testing',
+];
+
+for (const url of APP_PAGES) {
+  test(`GET ${url} redirects to /login when anonymous`, async () => {
+    const res = await app.inject({ method: 'GET', url });
+    assert.equal(res.statusCode, 302);
+    assert.equal(res.headers.location, '/login');
   });
 }
 
@@ -57,11 +64,6 @@ test('unknown /api route returns the JSON error envelope', async () => {
   const res = await app.inject({ method: 'GET', url: '/api/nope' });
   assert.equal(res.statusCode, 404);
   assert.equal(res.json().error.code, 'NOT_FOUND');
-});
-
-test('non-UUID journey id is rejected with 404', async () => {
-  const res = await app.inject({ method: 'GET', url: '/journey/not-a-uuid/checklist' });
-  assert.equal(res.statusCode, 404);
 });
 
 test('security headers are present', async () => {

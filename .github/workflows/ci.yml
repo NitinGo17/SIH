@@ -52,4 +52,5 @@ jobs:
       # Apply twice: second run must be a clean no-op (idempotency check)
       - run: node db/migrate.js
       - run: node db/migrate.js --status
-      - run: npm run test -- test/db.smoke.test.js
+      # Full suite: unit tests + DB integration (auth flows, CSRF, rate limiting)
+      - run: npm test
