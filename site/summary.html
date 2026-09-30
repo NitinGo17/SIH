@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Journey summary · ManakAI</title>
+  <meta name="description" content="Your compliance journey summary.">
+  <meta name="theme-color" content="#17153b">
+    <link rel="stylesheet" href="css/base.css">
+  <link rel="icon" href="icons.svg#logo" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="ManakAI home">
+        <svg class="icon icon-logo" aria-hidden="true" focusable="false"><use href="icons.svg#logo"/></svg>
+        <span class="brand-name">Manak<em>AI</em></span>
+      </a>
+
+      <!-- No-JS hamburger: label toggles a hidden checkbox, menu stays reachable by keyboard -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+      <label for="nav-toggle" class="nav-toggle" aria-label="Menu">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#menu"/></svg>
+        <span class="visually-hidden">Menu</span>
+      </label>
+
+      <nav class="site-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="journey-start.html">Start the Journey</a></li>
+                      <li><a class="btn btn-ghost btn-sm" href="login.html">Log in</a></li>
+            <li><a class="btn btn-primary btn-sm" href="register.html">Sign up</a></li>
+                  </ul>
+      </nav>
+    </div>
+  </header>
+
+  
+  <div id="offline-banner" class="offline-banner" hidden>
+    <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#offline"/></svg>
+    You appear to be offline. Some pages may not be available.
+  </div>
+
+  <main id="main" class="site-main ">
+    <!-- Final compliance summary. Expects: it.journeyId, it.product {name, category},
+     it.standards [{title, confidence}], it.tests [{name, status}], it.documents [],
+     it.certification {status, note}, it.outstanding [{title}], it.sourcesCount,
+     it.sources [...]. Summary matches persisted data only (Phase 7 gate). -->
+<section class="section" aria-labelledby="s-title">
+  <div class="container narrow">
+    <header class="page-head">
+      <h1 id="s-title">Your compliance summary</h1>
+      <p class="page-sub"></p>
+    </header>
+
+    <div class="card success-card" role="status">
+      <svg class="icon success-icon" aria-hidden="true" focusable="false"><use href="icons.svg#shield"/></svg>
+      <p>All tasks completed. This is a full summary of your journey — with sources.</p>
+    </div>
+
+    <section class="card task-section" aria-labelledby="s-standards">
+      <h2 id="s-standards">Standards and requirements</h2>
+      <ul class="plan-list" role="list">
+              </ul>
+    </section>
+
+    <section class="card task-section" aria-labelledby="s-tests">
+      <h2 id="s-tests">Testing</h2>
+      <ul class="test-list" role="list">
+              </ul>
+    </section>
+
+    <section class="card task-section" aria-labelledby="s-docs">
+      <h2 id="s-docs">Documents</h2>
+      <ul class="doc-list" role="list">
+              </ul>
+    </section>
+
+    <section class="card task-section" aria-labelledby="s-cert">
+      <h2 id="s-cert">Certification status</h2>
+      <p>Guidance only — status is computed from your completed tasks.</p>
+          </section>
+
+    
+    <section class="task-sources" aria-labelledby="s-sources">
+      <h2 id="s-sources">Sources (0)</h2>
+          </section>
+
+    <p class="checklist-links">
+      <a href="history.html">Journey history</a> ·
+      <a href="products.html">My Products</a>
+    </p>
+  </div>
+</section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-tagline">From Product to Compliance.</p>
+      <p class="footer-note">ManakAI provides guidance based on official sources. It is not official BIS approval.
+        Always verify requirements with the Bureau of Indian Standards.</p>
+      <p class="footer-copy">&copy; 2026 ManakAI</p>
+    </div>
+  </footer>
+
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/nav.js"></script>
+  <script type="module" src="js/offline.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile · ManakAI</title>
+  <meta name="description" content="Your business profile.">
+  <meta name="theme-color" content="#17153b">
+    <link rel="stylesheet" href="css/base.css">
+  <link rel="icon" href="icons.svg#logo" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="ManakAI home">
+        <svg class="icon icon-logo" aria-hidden="true" focusable="false"><use href="icons.svg#logo"/></svg>
+        <span class="brand-name">Manak<em>AI</em></span>
+      </a>
+
+      <!-- No-JS hamburger: label toggles a hidden checkbox, menu stays reachable by keyboard -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+      <label for="nav-toggle" class="nav-toggle" aria-label="Menu">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#menu"/></svg>
+        <span class="visually-hidden">Menu</span>
+      </label>
+
+      <nav class="site-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="journey-start.html">Start the Journey</a></li>
+                      <li><a class="btn btn-ghost btn-sm" href="login.html">Log in</a></li>
+            <li><a class="btn btn-primary btn-sm" href="register.html">Sign up</a></li>
+                  </ul>
+      </nav>
+    </div>
+  </header>
+
+    <nav class="bottom-nav" aria-label="App">
+    <ul>
+      <li><a href="dashboard.html" >
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#home"/></svg><span>Home</span></a></li>
+      <li><a href="journey-start.html" >
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#compass"/></svg><span>Journey</span></a></li>
+      <li><a href="profile.html" aria-current=&quot;page&quot;>
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#user"/></svg><span>Profile</span></a></li>
+    </ul>
+  </nav>
+  
+  <div id="offline-banner" class="offline-banner" hidden>
+    <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#offline"/></svg>
+    You appear to be offline. Some pages may not be available.
+  </div>
+
+  <main id="main" class="site-main has-bottom-nav">
+    <!-- Profile setup/edit. Expects: it.profile {businessName, businessType, industry, isComplete},
+     it.saved (bool, after successful save), it.error (string|null).
+     Plain form POST to /profile — works without JavaScript. -->
+<section class="section" aria-labelledby="profile-title">
+  <div class="container narrow">
+    <h1 id="profile-title">Tell us about your business</h1>
+    <p class="page-sub">This gives ManakAI the context to guide you — and it means the
+      consultation will never ask you for what you already told us here.</p>
+
+        
+    <form method="post" action="profile.html" class="card form-card">
+      <div class="field">
+        <label for="pf-business-name">Business name</label>
+        <input type="text" id="pf-business-name" name="businessName" autocomplete="organization"
+               value=""
+               aria-describedby="pf-business-name-hint"
+               >
+        <p class="hint" id="pf-business-name-hint">Used to address your journey and nothing else.</p>
+      </div>
+
+      <div class="field">
+        <label for="pf-business-type">What describes you best?</label>
+        <select id="pf-business-type" name="businessType"
+                aria-describedby="pf-business-type-hint"
+                >
+                                <option value="" >Choose one…</option>
+                      <option value="msme" >MSME (small manufacturer or trader)</option>
+                      <option value="startup" >Product startup</option>
+                      <option value="manufacturer" >Manufacturer</option>
+                      <option value="importer" >Importer</option>
+                      <option value="entrepreneur" >Exploring an idea</option>
+                      <option value="other" >Other</option>
+                  </select>
+        <p class="hint" id="pf-business-type-hint">A manufacturer's path differs from an importer's — this changes the requirements we check.</p>
+      </div>
+
+      <div class="field">
+        <label for="pf-industry">Industry or product area</label>
+        <input type="text" id="pf-industry" name="industry" list="industry-options"
+               value=""
+               aria-describedby="pf-industry-hint"
+               >
+        <datalist id="industry-options">
+          <option value="Electrical / Lighting"></option>
+          <option value="Toys"></option>
+          <option value="Electronics"></option>
+          <option value="Steel / Metals"></option>
+          <option value="Textiles"></option>
+          <option value="Food products"></option>
+          <option value="Ceramics / Sanitaryware"></option>
+        </datalist>
+        <p class="hint" id="pf-industry-hint">For example: electrical, toys, textiles. We use it to pre-check the right standards.</p>
+      </div>
+
+      <p class="privacy-note">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#shield"/></svg>
+        We never ask for Aadhaar, PAN, bank details or anything financial.
+      </p>
+
+      <button type="submit" class="btn btn-primary">Save profile</button>
+    </form>
+  </div>
+</section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-tagline">From Product to Compliance.</p>
+      <p class="footer-note">ManakAI provides guidance based on official sources. It is not official BIS approval.
+        Always verify requirements with the Bureau of Indian Standards.</p>
+      <p class="footer-copy">&copy; 2026 ManakAI</p>
+    </div>
+  </footer>
+
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/nav.js"></script>
+  <script type="module" src="js/offline.js"></script>
+</body>
+</html>

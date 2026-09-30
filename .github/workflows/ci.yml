@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    name: Lint + unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+
+  migrations:
+    name: Migrations apply cleanly (pgvector)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: manakai
+          POSTGRES_PASSWORD: manakai
+          POSTGRES_DB: manakai
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U manakai"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://manakai:manakai@localhost:5432/manakai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      # Apply twice: second run must be a clean no-op (idempotency check)
+      - run: node db/migrate.js
+      - run: node db/migrate.js --status
+      - run: npm run test -- test/db.smoke.test.js

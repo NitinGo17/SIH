@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create an account · ManakAI</title>
+  <meta name="description" content="Create your ManakAI account and start your compliance journey.">
+  <meta name="theme-color" content="#17153b">
+    <link rel="stylesheet" href="css/base.css">
+  <link rel="icon" href="icons.svg#logo" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="ManakAI home">
+        <svg class="icon icon-logo" aria-hidden="true" focusable="false"><use href="icons.svg#logo"/></svg>
+        <span class="brand-name">Manak<em>AI</em></span>
+      </a>
+
+      <!-- No-JS hamburger: label toggles a hidden checkbox, menu stays reachable by keyboard -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+      <label for="nav-toggle" class="nav-toggle" aria-label="Menu">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#menu"/></svg>
+        <span class="visually-hidden">Menu</span>
+      </label>
+
+      <nav class="site-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="journey-start.html">Start the Journey</a></li>
+                      <li><a class="btn btn-ghost btn-sm" href="login.html">Log in</a></li>
+            <li><a class="btn btn-primary btn-sm" href="register.html">Sign up</a></li>
+                  </ul>
+      </nav>
+    </div>
+  </header>
+
+  
+  <div id="offline-banner" class="offline-banner" hidden>
+    <svg class="icon" aria-hidden="true" focusable="false"><use href="icons.svg#offline"/></svg>
+    You appear to be offline. Some pages may not be available.
+  </div>
+
+  <main id="main" class="site-main ">
+    <!-- Register page body. Plain form POST to /register so it works without JavaScript. -->
+<section class="auth-section" aria-labelledby="register-title">
+  <div class="container">
+    <div class="card auth-card">
+      <h1 id="register-title">Create your account</h1>
+      <p class="auth-sub">One account, many products, many journeys.</p>
+
+      
+      <form method="post" action="register.html" novalidate>
+        <div class="field">
+          <label for="reg-name">Your name</label>
+          <input type="text" id="reg-name" name="name" autocomplete="name" required
+                 >
+          <p class="hint" id="reg-name-hint">So ManakAI can greet you and personalize guidance.</p>
+        </div>
+
+        <div class="field">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" name="email" autocomplete="email" required
+                 inputmode="email" >
+          <p class="hint" id="reg-email-hint">Used only to log in. We never ask for Aadhaar, PAN or bank details.</p>
+        </div>
+
+        <div class="field">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" name="password" autocomplete="new-password" required
+                 minlength="8" aria-describedby="reg-password-hint"
+                 >
+          <p class="hint" id="reg-password-hint">At least 8 characters.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Create account</button>
+      </form>
+
+      <p class="auth-alt">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+  </div>
+</section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-tagline">From Product to Compliance.</p>
+      <p class="footer-note">ManakAI provides guidance based on official sources. It is not official BIS approval.
+        Always verify requirements with the Bureau of Indian Standards.</p>
+      <p class="footer-copy">&copy; 2026 ManakAI</p>
+    </div>
+  </footer>
+
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/nav.js"></script>
+  <script type="module" src="js/offline.js"></script>
+</body>
+</html>

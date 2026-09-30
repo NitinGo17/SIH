@@ -14,7 +14,7 @@
          data-task-page="/journey/<%= it.journeyId %>/task/<%= it.task.id %>"
          data-complete-url="/api/tasks/<%= it.task.id %>/complete">
       <ul class="chat-log" data-chat-log aria-label="Task assistance conversation">
-        <% (it.messages || []).forEach(function (m) { %>
+        <% ;(it.messages || []).forEach(function (m) { %>
         <li class="chat-msg chat-msg-<%= m.role %>">
           <p><%= m.content %></p>
           <% if (m.citations && m.citations.length) { %>
