@@ -31,18 +31,20 @@ npm run dev           # serves on :3000; without DATABASE_URL pages still render
 - `GET /healthz` — liveness probe, reports database state honestly
 - CI: `.github/workflows/ci.yml` — lint, unit tests, and migrations applied idempotently against a `pgvector/pgvector:pg16` service
 
-## Static site preview (`site/`)
+## Static website (repo root)
 
-`site/` holds **generated, standalone HTML** — outside `server/` — rendered through the
-same templates and page registry as the live app:
+The repo root holds **generated, standalone HTML** — `index.html`, `login.html`, ... with
+`css/` and `js/` folders — rendered through the same templates and page registry as the live
+app:
 
 ```bash
 cd server && npm run export:static
 ```
 
-Host that folder on any static host (GitHub Pages, Netlify, S3) to put the ManakAI
-website online without running the backend. It is a UI preview only — login, the
-AI consultation, checklists and lab search need the backend. See `site/README.md`.
+To make the website live, enable **GitHub Pages → Deploy from a branch → `main` / `/ (root)`**
+(or point any static host at the repo root). It is a UI preview only — login, the AI
+consultation, checklists and lab search need the backend. Generated files are owned by the
+export script; project files (README.md, docs/, server/, ...) are never touched by it.
 
 ## Documentation
 

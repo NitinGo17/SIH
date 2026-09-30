@@ -1,21 +1,25 @@
 // Static site exporter — renders every page through the REAL server pipeline
 // (same templates + same page registry as the SSR routes) and writes plain
-// HTML files to <repo>/site/, next to server/, with relative asset paths.
+// HTML files with relative asset paths.
 //
-// The output can be hosted on any static host (GitHub Pages, Netlify, S3…):
+// Output layout is a classic static website at the REPO ROOT (outside
+// server/): index.html, login.html, ... + css/ + js/ + icons.svg + sw.js —
+// ready for "GitHub Pages → deploy from branch (root)" with zero config:
+//
 //   cd server && npm run export:static
 //
 // The static build is a PREVIEW of the UI: interactive features that need the
 // backend (login, chat, checklists) are absent by design — the JS islands
 // call /api/* and fail silently when the backend is not there.
 import path from 'node:path';
-import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, rm, unlink, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { PAGES, render } from '../routes/pages.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const SERVER_DIR = path.join(here, '..');
-const SITE_DIR = path.join(SERVER_DIR, '..', 'site');
+const ROOT_DIR = path.join(SERVER_DIR, '..');
 
 // route -> static file name for the flat output directory
 const FILE_NAMES = {
@@ -63,34 +67,23 @@ function rewriteHtml(html) {
   return html.replace(/(href|src|action)="([^"]*)"/g, (m, attr, url) => `${attr}="${rewriteUrl(url)}"`);
 }
 
-const SITE_README = `# site/ — static HTML preview of ManakAI
+// Generated files we own at the repo root (never touched: README.md, docs/,
+// server/, .github/, docker-compose.yml, ...)
+const GENERATED_HTML = Object.values(FILE_NAMES);
 
-This folder is **generated** — do not edit these files by hand.
-Regenerate after changing templates or page routes:
-
-    cd server && npm run export:static
-
-Every page is rendered through the exact same server pipeline as production
-(\`server/templates\` + \`server/routes/pages.js\`) with placeholder data, then
-written as plain HTML with relative asset paths.
-
-## What it is for
-
-Host this folder on any static host (GitHub Pages, Netlify, S3, nginx) to put
-the ManakAI website — home page, login/register screens, and all app layouts
-— online without running the backend.
-
-## What it is NOT
-
-A UI preview only. Anything that needs the backend — real login, the AI
-consultation, checklists, tasks, lab search — is absent by design: the JS
-islands call /api/* and fail silently when the backend is not there. No
-compliance data is hardcoded in these pages.
-`;
+async function cleanGenerated() {
+  for (const file of GENERATED_HTML) {
+    const p = path.join(ROOT_DIR, file);
+    if (existsSync(p)) await unlink(p);
+  }
+  await rm(path.join(ROOT_DIR, 'css'), { recursive: true, force: true });
+  await rm(path.join(ROOT_DIR, 'js'), { recursive: true, force: true });
+  await rm(path.join(ROOT_DIR, 'icons.svg'), { force: true });
+  await rm(path.join(ROOT_DIR, 'sw.js'), { force: true });
+}
 
 async function main() {
-  await rm(SITE_DIR, { recursive: true, force: true });
-  await mkdir(SITE_DIR, { recursive: true });
+  await cleanGenerated();
 
   let failed = 0;
   for (const page of PAGES) {
@@ -98,7 +91,7 @@ async function main() {
     if (!file) throw new Error(`No static file name mapped for route ${page.route}`);
     try {
       const html = rewriteHtml(render(page));
-      await writeFile(path.join(SITE_DIR, file), html);
+      await writeFile(path.join(ROOT_DIR, file), html);
       console.log(`ok  ${file}  (${page.url})`);
     } catch (err) {
       console.error(`FAIL ${page.url}: ${err.message}`);
@@ -106,21 +99,18 @@ async function main() {
     }
   }
 
-  // assets: css, js, icon sprite, service worker
-  await cp(path.join(SERVER_DIR, 'public', 'css'), path.join(SITE_DIR, 'css'), { recursive: true });
-  await cp(path.join(SERVER_DIR, 'public', 'js'), path.join(SITE_DIR, 'js'), { recursive: true });
-  await cp(path.join(SERVER_DIR, 'public', 'icons.svg'), path.join(SITE_DIR, 'icons.svg'));
-  await cp(path.join(SERVER_DIR, 'public', 'sw.js'), path.join(SITE_DIR, 'sw.js'));
-  console.log('ok  assets (css, js, icons.svg, sw.js)');
-
-  await writeFile(path.join(SITE_DIR, 'README.md'), SITE_README);
-  console.log('ok  README.md');
+  // assets: css/, js/ folders + icon sprite + service worker, at repo root
+  await cp(path.join(SERVER_DIR, 'public', 'css'), path.join(ROOT_DIR, 'css'), { recursive: true });
+  await cp(path.join(SERVER_DIR, 'public', 'js'), path.join(ROOT_DIR, 'js'), { recursive: true });
+  await cp(path.join(SERVER_DIR, 'public', 'icons.svg'), path.join(ROOT_DIR, 'icons.svg'));
+  await cp(path.join(SERVER_DIR, 'public', 'sw.js'), path.join(ROOT_DIR, 'sw.js'));
+  console.log('ok  css/ js/ icons.svg sw.js');
 
   if (failed > 0) {
     console.error(`${failed} page(s) failed to render`);
     process.exit(1);
   }
-  console.log(`\nStatic site written to ${SITE_DIR}`);
+  console.log(`\nStatic website written to repo root: ${ROOT_DIR}`);
   process.exit(0);
 }
 
