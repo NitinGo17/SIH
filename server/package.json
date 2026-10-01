@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "test": "node --test test/",
     "export:static": "node scripts/export-static.js",
-    "seed": "node ingestion/ingest.js ingestion/seed/led-lighting.json"
+    "seed": "node ingestion/ingest.js ingestion/seed/led-lighting.json",
+    "seed:labs": "node ingestion/ingest-labs.js"
   },
   "dependencies": {
     "@fastify/cookie": "^11.1.2",
