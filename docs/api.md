@@ -81,6 +81,12 @@ Password policy: min 8 chars; no composition theatre. Rate limit: 10 attempts / 
 
 The assistant never asks for data available in the profile — the orchestrator pre-fills from profile context and only asks for gaps.
 
+### Streaming variant (SSE)
+
+`GET /api/journeys/:id/messages/stream?content=<message>`
+
+Incremental delivery of the same assistant turn `POST /api/journeys/:id/messages` returns. Request with `Accept: text/event-stream`; the user's message is supplied as the `content` query parameter. The response is `Content-Type: text/event-stream` and emits ordered `event: token` frames — `data: {"text": "…"}` chunks that concatenate to the full `reply` — followed by a terminal `event: done` frame whose `data` is the exact POST-response object (`{ messageId, reply, ask, phase }`). The turn is persisted server-side before any frame is streamed, so a dropped connection never loses the assistant turn. On failure before the stream opens, the standard JSON error envelope is returned with the usual status codes (`UNAUTHENTICATED`, `NOT_FOUND`, `VALIDATION_ERROR`, `AI_UNAVAILABLE`). Clients without `EventSource` fall back to the POST turn.
+
 ## 6. Checklist
 
 | Method & path | Body | Response |
@@ -143,5 +149,5 @@ Context sent to the orchestrator (server-side): profile, product, journey tasks 
 ## 10. Conventions
 
 - UUIDs as ids. ISO-8601 timestamps. Pagination: `?page=&pageSize=` (default 20) on history/product lists.
-- SSE variant for chat streaming at `GET /api/journeys/:id/messages/stream` (optional enhancement; clients fall back to POST).
+- SSE variant for chat streaming at `GET /api/journeys/:id/messages/stream` (implemented — see §5; clients without `EventSource` still fall back to POST).
 - All list endpoints cap page size at 100.
