@@ -56,6 +56,36 @@ test(
     assert.ok(turn.messageId);
     assert.equal(typeof turn.reply, 'string');
 
+    // SSE stream (§10): same terminal object as the POST turn, token frames first.
+    const stream = await app.inject({
+      method: 'GET',
+      url: `/api/journeys/${journey.json().journeyId}/messages/stream?content=${encodeURIComponent('Household LED bulbs for general lighting')}`,
+      cookies: cookies(),
+    });
+    assert.equal(stream.statusCode, 200, stream.body);
+    assert.match(stream.headers['content-type'], /text\/event-stream/);
+    assert.match(stream.body, /event: token/);
+    assert.match(stream.body, /event: done/);
+    const frames = stream.body.split('\n\n');
+    const doneFrame = frames.find((f) => f.includes('event: done'));
+    assert.ok(doneFrame, 'terminal done frame present');
+    const doneData = JSON.parse(doneFrame.split('data: ')[1]);
+    assert.ok(doneData.messageId, 'done frame carries the turn object');
+    assert.equal(typeof doneData.reply, 'string');
+    assert.ok(['gathering', 'summarizing', 'done'].includes(doneData.phase));
+    // token chunks reconstruct the full reply (concatenation-lossless)
+    const tokenText = frames
+      .filter((f) => f.includes('event: token'))
+      .map((f) => JSON.parse(f.split('data: ')[1]).text)
+      .join('');
+    assert.equal(tokenText, doneData.reply);
+    // unauthenticated stream is rejected with the standard envelope
+    const noAuth = await app.inject({
+      method: 'GET',
+      url: `/api/journeys/${journey.json().journeyId}/messages/stream?content=hi`,
+    });
+    assert.equal(noAuth.statusCode, 401);
+
     // plan: whatever is there must be grounded
     const plan = await app.inject({ method: 'GET', url: `/api/journeys/${journey.json().journeyId}/plan`, cookies: cookies() });
     assert.equal(plan.statusCode, 200);
