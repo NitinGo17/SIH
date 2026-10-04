@@ -9,6 +9,7 @@
 import { pageData } from '../placeholders.js';
 import * as productsSvc from '../services/products.js';
 import * as checklistSvc from '../services/checklist.js';
+import * as summarySvc from '../services/summary.js';
 
 
 import { renderPage } from '../render.js';
@@ -292,6 +293,11 @@ export default async function pageRoutes(fastify) {
     }
     return { journeyId: req.params.id, stages, page: 1, pageCount: 1 };
   });
+
+  // Phase 7: the final summary must reflect persisted data only.
+  real('/journey/:id/summary', async (req) =>
+    summarySvc.getJourneySummary(fastify.db, req.user.id, req.params.id)
+  );
 
   // Profile needs its real data (Phase 2) — handled here, not by the registry default.
   const profilePage = PAGES.find((p) => p.route === '/profile');
